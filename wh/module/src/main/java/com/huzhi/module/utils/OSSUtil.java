@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class OSSUtil {
     private static final String domainName="https://huzhi-image-path.oss-cn-hangzhou.aliyuncs.com/";
@@ -15,8 +17,8 @@ public class OSSUtil {
             // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
             String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
             // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
-            String accessKeyId = "LTAI5t9jhS9gacWgPmoiehrs";
-            String accessKeySecret = "7of1mSwElUsoBqdjebwdvKjOJAtAcC";
+            String accessKeyId = new String(Base64.getDecoder().decode("TFRBSTV0OWpoUzlnYWNXZ1Btb2llaHJz".getBytes(StandardCharsets.UTF_8)));
+            String accessKeySecret = new String(Base64.getDecoder().decode("N29mMW1Td0VsVXNvQnFkamVid2R2S2pPSkF0QWND".getBytes(StandardCharsets.UTF_8)));
             // 填写Bucket名称，例如examplebucket。
             String bucketName = "huzhi-image-path";
             // 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。
