@@ -39,12 +39,12 @@ public class BaseCarAndTagService {
 
     /**
      * carList查询
-     * @param numberPlate
-     * @param enterpriseName
-     * @param tag
-     * @param page
-     * @param pageSize
-     * @return
+     * @param numberPlate    车牌
+     * @param enterpriseName 公司名称
+     * @param tag            标签
+     * @param page           第几页
+     * @param pageSize       每页大小
+     * @return 处理标签换标签id
      */
     public List<Car> baseGetCarList(String numberPlate, String enterpriseName,String tag, int page, int pageSize){
         //如果搜索的标签在数据库有效,获取relation表中对应的车辆id列表
