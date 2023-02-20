@@ -1,0 +1,17 @@
+com\huzhi\app\controller\GlobalErrorController.class
+com\huzhi\app\domain\car\CarInfoVO.class
+com\huzhi\app\domain\car\CarListVO.class
+com\huzhi\app\AppApplication.class
+com\huzhi\app\domain\user\UserInfoVo.class
+com\huzhi\app\annotations\VerifiedUser.class
+com\huzhi\app\domain\user\UserLoginInfoVo.class
+com\huzhi\app\UserAuthorityResolver.class
+com\huzhi\app\controller\GlobalControllerAdvice.class
+com\huzhi\app\controller\user\UserController.class
+com\huzhi\app\WebMvcConfiguration.class
+com\huzhi\app\domain\car\WrapperPageVO.class
+com\huzhi\app\CorsConfig.class
+com\huzhi\app\controller\thread\ThreadController.class
+com\huzhi\app\controller\car\CarController.class
+com\huzhi\app\domain\car\CarListBaseVO.class
+com\huzhi\app\domain\user\UserSignVO.class

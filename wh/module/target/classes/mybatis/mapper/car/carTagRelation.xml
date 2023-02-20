@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.car.mapper.CarTagRelationMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into car_tag_relation(
+        <if test="CarTagRelation.carId != null">car_id,</if>
+        <if test="CarTagRelation.tagId != null">tag_id,</if>
+        <if test="CarTagRelation.createTime != null">create_time,</if>
+        <if test="CarTagRelation.updateTime != null">update_time,</if>
+        <if test="CarTagRelation.isDeleted != null">is_deleted</if>
+        )values(
+        <if test="CarTagRelation.carId != null">#{CarTagRelation.carId},</if>
+        <if test="CarTagRelation.tagId != null">#{CarTagRelation.tagId},</if>
+        <if test="CarTagRelation.createTime != null">#{CarTagRelation.createTime},</if>
+        <if test="CarTagRelation.updateTime != null">#{CarTagRelation.updateTime},</if>
+        <if test="CarTagRelation.isDeleted != null">#{CarTagRelation.isDeleted}</if>
+        )
+    </insert>
+
+    <update id="update">
+        update car_tag_relation
+        set id = #{CarTagRelation.id}
+        <if test="CarTagRelation.carId != null">, car_id = #{CarTagRelation.carId}</if>
+        <if test="CarTagRelation.tagId != null">, tag_id = #{CarTagRelation.tagId}</if>
+        <if test="CarTagRelation.createTime != null"> , create_time = #{CarTagRelation.createTime}</if>
+        <if test="CarTagRelation.updateTime != null"> , update_time = #{CarTagRelation.updateTime}</if>
+        <if test="CarTagRelation.isDeleted != null"> , is_deleted = #{CarTagRelation.isDeleted}</if>
+        where id = #{CarTagRelation.id}
+    </update>
+    <update id="deleteByCarId">
+        update car_tag_relation
+        set is_deleted = 1
+        <if test="updateTime != null">,update_time = #{updateTime}</if>
+        where
+        <if test="carId != null">car_id = #{carId}</if>
+    </update>
+    <update id="deleteByTagId">
+        update car_tag_relation
+        set is_deleted = 1
+        <if test="updateTime != null">,update_time = #{updateTime}</if>
+        where
+        <if test="tagId != null">tag_id = #{tagId} and</if>
+    </update>
+
+    <select id="getByCarIdAndTagIdList" resultType="com.huzhi.module.module.car.entity.CarTagRelation">
+        select * from car_tag_relation
+        <trim prefix="where" suffixOverrides="and">
+            <if test="carId != null">car_id = #{carId} and</if>
+            <if test="tagId != null">tag_id = #{tagId} and</if>
+        </trim>
+    </select>
+    <select id="getByCarIdOrTagId" resultType="com.huzhi.module.module.car.entity.CarTagRelation">
+        select * from car_tag_relation
+        <trim prefix="where" suffixOverrides="and">
+            <if test="carId != null">car_id = #{carId} and</if>
+            <if test="tagId != null">tag_id = #{tagId} and</if>
+        </trim>
+    </select>
+</mapper>
+

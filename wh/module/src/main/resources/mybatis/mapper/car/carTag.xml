@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.car.mapper.CarTagMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into car_tag(
+        <if test="CarTag.name != null and CarTag.name != ''">tag,</if>
+        <if test="CarTag.createTime != null">create_time,</if>
+        <if test="CarTag.updateTime != null">update_time,</if>
+        <if test="CarTag.isDeleted != null">is_deleted</if>
+        )values(
+        <if test="CarTag.name != null and CarTag.name != ''">#{CarTag.tag},</if>
+        <if test="CarTag.createTime != null">#{CarTag.createTime},</if>
+        <if test="CarTag.updateTime != null">#{CarTag.updateTime},</if>
+        <if test="CarTag.isDeleted != null">#{CarTag.isDeleted}</if>
+        )
+    </insert>
+
+    <update id="update">
+        update car_tag
+        set id = #{CarTag.id}
+                <if test="CarTag.name != null and CarTag.name != ''"> , tag = #{CarTag.tag}</if>
+                <if test="CarTag.createTime != null"> , create_time = #{CarTag.createTime}</if>
+                <if test="CarTag.updateTime != null"> , update_time = #{CarTag.updateTime}</if>
+                <if test="CarTag.isDeleted != null"> , is_deleted = #{CarTag.isDeleted}</if>
+        where id = #{CarTag.id}
+    </update>
+    <select id="getByTag" resultType="com.huzhi.module.module.car.entity.CarTag">
+        select * from car_tag
+        where <if test="tag != null and tag !=''">tag=trim(#{tag})</if>
+    </select>
+
+
+</mapper>
+

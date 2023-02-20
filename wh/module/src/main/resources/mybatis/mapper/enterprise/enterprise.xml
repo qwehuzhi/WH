@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.enterprise.mapper.EnterpriseMapper">
+
+    <!--insert插入数据-->
+    <!-- 新增表enterprise信息 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO enterprise (
+        <if test="enterprise.name!=null and enterprise.name!=''">name,</if>
+        <if test="enterprise.legalPersonName!=null and enterprise.legalPersonName!=''">legal_person_name,</if>
+        <if test="enterprise.creditCode!=null and enterprise.creditCode!=''">credit_code,</if>
+        <if test="enterprise.businessLicensePic!=null and enterprise.businessLicensePic!=''">business_license_pic,</if>
+        <if test="enterprise.legalPersonIdFrontPic!=null and enterprise.legalPersonIdFrontPic!=''">legal_person_id_front_pic,</if>
+        <if test="enterprise.legalPersonIdReversePic!=null and enterprise.legalPersonIdReversePic!=''">legal_person_id_reverse_pic,</if>
+        <if test="enterprise.balance!=null and enterprise.balance!=''">balance,</if>
+        <if test="enterprise.createTime!=null ">create_time,</if>
+        <if test="enterprise.updateTime!=null ">update_time,</if>
+        <if test="enterprise.isDeleted!=null ">is_deleted,</if>
+        ) VALUES (
+        <if test="enterprise.name!=null and enterprise.name!=''">#{enterprise.name},</if>
+        <if test="enterprise.legalPersonName!=null and enterprise.legalPersonName!=''">#{enterprise.legalPersonName},</if>
+        <if test="enterprise.creditCode!=null and enterprise.creditCode!=''">#{enterprise.creditCode},</if>
+        <if test="enterprise.businessLicensePic!=null and enterprise.businessLicensePic!=''">#{enterprise.businessLicensePic},</if>
+        <if test="enterprise.legalPersonIdFrontPic!=null and enterprise.legalPersonIdFrontPic!=''">#{enterprise.legalPersonIdFrontPic},</if>
+        <if test="enterprise.legalPersonIdReversePic!=null and enterprise.legalPersonIdReversePic!=''">#{enterprise.legalPersonIdReversePic},</if>
+        <if test="enterprise.balance!=null and enterprise.balance!=''">#{enterprise.balance},</if>
+        <if test="enterprise.createTime!=null ">#{enterprise.createTime},</if>
+        <if test="enterprise.updateTime!=null ">#{enterprise.updateTime},</if>
+        <if test="enterprise.isDeleted!=null ">#{enterprise.isDeleted},</if>
+        )
+    </insert>
+    <!--update修改数据-->
+    <!-- 根据主键id更新表enterprise信息 -->
+    <update id="update">
+         UPDATE enterprise
+         set id=#{enterprise.id}
+         <if test="enterprise.name!=null and enterprise.name!=''">,name = #{enterprise.name}</if>
+         <if test="enterprise.legalPersonName!=null and enterprise.legalPersonName!=''">,legal_person_name = #{enterprise.legalPersonName}</if>
+         <if test="enterprise.creditCode!=null and enterprise.creditCode!=''">,credit_code = #{enterprise.creditCode}</if>
+         <if test="enterprise.businessLicensePic!=null and enterprise.businessLicensePic!=''">,business_license_pic = #{enterprise.businessLicensePic}</if>
+         <if test="enterprise.legalPersonIdFrontPic!=null and enterprise.legalPersonIdFrontPic!=''">,legal_person_id_front_pic = #{enterprise.legalPersonIdFrontPic}</if>
+         <if test="enterprise.legalPersonIdReversePic!=null and enterprise.legalPersonIdReversePic!=''">,legal_person_id_reverse_pic = #{enterprise.legalPersonIdReversePic}</if>
+         <if test="enterprise.createTime!=null ">,create_time = #{enterprise.createTime}</if>
+         <if test="enterprise.updateTime!=null ">,update_time = #{enterprise.updateTime}</if>
+         <if test="enterprise.isDeleted!=null">,is_deleted = #{enterprise.isDeleted}</if>
+         WHERE id=#{enterprise.id}
+    </update>
+
+</mapper>
