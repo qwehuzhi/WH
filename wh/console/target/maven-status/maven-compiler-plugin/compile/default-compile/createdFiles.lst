@@ -8,7 +8,9 @@ com\huzhi\console\annotations\VerifiedUser.class
 com\huzhi\console\domain\car\CarInfoVO.class
 com\huzhi\console\domain\car\CarListVO.class
 com\huzhi\console\CorsConfig.class
+com\huzhi\console\domain\car\imageVO.class
 com\huzhi\console\ConsoleApplication.class
+com\huzhi\console\domain\car\imageBaseVO.class
 com\huzhi\console\controller\GlobalControllerAdvice.class
 com\huzhi\console\WebMvcConfiguration.class
 com\huzhi\console\configuration\UserLoginInterceptor.class

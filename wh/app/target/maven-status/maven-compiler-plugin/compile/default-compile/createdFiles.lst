@@ -5,6 +5,7 @@ com\huzhi\app\AppApplication.class
 com\huzhi\app\domain\user\UserInfoVo.class
 com\huzhi\app\annotations\VerifiedUser.class
 com\huzhi\app\domain\user\UserLoginInfoVo.class
+com\huzhi\app\domain\car\imageVO.class
 com\huzhi\app\UserAuthorityResolver.class
 com\huzhi\app\controller\GlobalControllerAdvice.class
 com\huzhi\app\controller\user\UserController.class
