@@ -4,8 +4,11 @@ C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\mo
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\user\mapper\UserMapper.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\user\service\UserDefine.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\enterprise\entity\Enterprise.java
+C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\carTagRelation\controller\CarTagRelationController.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\utils\SignUtil.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\response\Response.java
+C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\carTagRelation\entity\CarTagRelation.java
+C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\utils\OSSKey.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\car\entity\CarTagRelation.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\car\service\CarTagService.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\utils\IpUtil.java
@@ -24,12 +27,15 @@ C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\mo
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\car\service\BaseCarAndTagService.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\utils\ImageUtil.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\build\BuildCode.java
+C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\carTagRelation\service\CarTagRelationService.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\car\mapper\CarMapper.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\car\mapper\CarTagRelationMapper.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\car\entity\Car.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\car\entity\CarTag.java
+C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\carTagRelation\mybatis\mapper\CarTagRelationMapper.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\response\ResponseCode.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\user\entity\User.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\utils\WebFileUtil.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\utils\BaseUtil.java
 C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\build\NewBuildCode.java
+C:\Users\Administrator\IdeaProjects\work\WH\wh\module\src\main\java\com\huzhi\module\module\carTagRelation\service\impl\CarTagRelationServiceImpl.java

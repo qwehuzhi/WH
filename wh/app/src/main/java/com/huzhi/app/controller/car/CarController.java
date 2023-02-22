@@ -3,7 +3,6 @@ package com.huzhi.app.controller.car;
 import com.alibaba.fastjson.JSONObject;
 import com.huzhi.app.domain.car.*;
 import com.huzhi.module.module.car.entity.Car;
-import com.huzhi.module.module.car.service.BaseCarAndTagService;
 import com.huzhi.module.module.car.service.CarService;
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import com.huzhi.module.module.enterprise.service.EnterpriseService;
@@ -34,16 +33,13 @@ public class CarController {
     private final EnterpriseService enterpriseService;
 
     private final BaseUserService baseUserService;
-    private final BaseCarAndTagService baseCarAndTagService;
     @Autowired
     public CarController(CarService carService,
                          EnterpriseService enterpriseService,
-                         BaseUserService baseUserService,
-                         BaseCarAndTagService baseCarAndTagService){
+                         BaseUserService baseUserService){
         this.carService=carService;
         this.enterpriseService=enterpriseService;
         this.baseUserService=baseUserService;
-        this.baseCarAndTagService=baseCarAndTagService;
     }
     /**
      * app车辆列表
@@ -54,8 +50,7 @@ public class CarController {
     @RequestMapping("/car/list")
     public Response carList(@RequestParam(value = "wp",required = false) String wp,
                             @RequestParam(value = "numberPlate",required = false) String numberPlate,
-                            @RequestParam(value = "enterpriseName",required = false) String enterpriseName,
-                            @RequestParam(value = "tag",required = false) String tag
+                            @RequestParam(value = "enterpriseName",required = false) String enterpriseName
     ) {
         WrapperPageVO wpMassage=new WrapperPageVO();
         if (wp == null || wp.equals("")){
@@ -69,7 +64,7 @@ public class CarController {
             wpMassage.setPage(wpMassage.getPage()+1);
         }
         String wpBase= Base64.getUrlEncoder().encodeToString(JSONObject.toJSONString(wpMassage).getBytes(StandardCharsets.UTF_8));
-        List<Car> cars=baseCarAndTagService.baseGetCarList(wpMassage.getNumberPlate(),wpMassage.getEnterpriseName(),tag,wpMassage.getPage(), pageSize);
+        List<Car> cars=carService.getCarList(wpMassage.getNumberPlate(),wpMassage.getEnterpriseName(),wpMassage.getPage(), pageSize);
         //将carList的id重组成新的list
         List<BigInteger> idList=cars.stream().map(Car::getEnterpriseId).collect(Collectors.toList());
         List<Enterprise> enterpriseList=enterpriseService.getByIdList(idList);

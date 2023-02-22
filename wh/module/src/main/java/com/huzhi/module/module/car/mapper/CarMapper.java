@@ -48,7 +48,6 @@ public interface CarMapper {
      */
     List<Car> getCarList(@Param(value = "numberPlate")String numberPlate,
                          @Param(value = "enterpriseId") String enterpriseId,
-                         @Param(value = "idRange") String idRange,
                          @Param(value = "offset")int offset,
                          @Param(value = "pageSize") int pageSize);
     /**

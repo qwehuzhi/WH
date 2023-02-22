@@ -2,7 +2,6 @@ package com.huzhi.console.controller.car;
 
 import com.huzhi.console.domain.car.*;
 import com.huzhi.module.module.car.entity.Car;
-import com.huzhi.module.module.car.service.BaseCarAndTagService;
 import com.huzhi.module.module.car.service.CarService;
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import com.huzhi.module.module.enterprise.service.EnterpriseService;
@@ -11,6 +10,7 @@ import com.huzhi.module.utils.FileUtil;
 import com.huzhi.module.utils.ImageUtil;
 import com.huzhi.module.utils.OSSUtil;
 import com.huzhi.module.utils.TimeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RestController
 public class CarController {
     @Value("${file.save.path}")
@@ -33,14 +29,11 @@ public class CarController {
 
     private final CarService carService;
     private final EnterpriseService enterpriseService;
-    private final BaseCarAndTagService baseCarAndTagService;
     @Autowired
     public CarController(CarService carService,
-                         EnterpriseService enterpriseService,
-                         BaseCarAndTagService baseCarAndTagService){
+                         EnterpriseService enterpriseService){
         this.carService=carService;
         this.enterpriseService=enterpriseService;
-        this.baseCarAndTagService=baseCarAndTagService;
     }
 
     /**
@@ -57,8 +50,7 @@ public class CarController {
                          @RequestParam(value = "transportPic") String transportPic,             //运输证照片
                          @RequestParam(value = "trailerPic",required = false) String trailerPic,//挂车行驶证照片（可以不传）
                          @RequestParam(value = "businessStatus") Integer businessStatus,        //业务状态
-                         @RequestParam(value = "enterpriseId") BigInteger enterpriseId,         //公司id
-                         @RequestParam(value = "tagList",required = false)List<String> tags     //标签
+                         @RequestParam(value = "enterpriseId") BigInteger enterpriseId         //公司id
     ){
         String message;
         numberPlate=numberPlate.trim();
@@ -66,8 +58,8 @@ public class CarController {
         transport=transport.trim();
         trailer=trailer==null ?null:trailer.trim();
         try{
-            BigInteger add=baseCarAndTagService.baseEditCar(null,numberPlate,model,businessStatus,null,licenseFrontPic,
-                    licenseBackPic,transportPic,trailerPic,transport,trailer,0,enterpriseId,tags);
+            BigInteger add=carService.editCar(null,numberPlate,model,businessStatus,null,licenseFrontPic,
+                    licenseBackPic,transportPic,trailerPic,transport,trailer,0,enterpriseId);
 
             message="insert success id:"+add.toString();
             return new Response<>(1001,message);
@@ -96,8 +88,7 @@ public class CarController {
                             @RequestParam(value = "trailerPic",required = false) String trailerPic,
                             @RequestParam(value = "businessStatus") Integer businessStatus,
                             @RequestParam(value = "enterpriseId") BigInteger enterpriseId,
-                            @RequestParam(value = "isDeleted" )Integer isDeleted,
-                            @RequestParam(value = "tagList",required = false)List<String> tags     //标签
+                            @RequestParam(value = "isDeleted" )Integer isDeleted
     ){
         String message;
         numberPlate=numberPlate.trim();
@@ -105,8 +96,8 @@ public class CarController {
         transport=transport.trim();
         trailer=trailer==null ?null:trailer.trim();
         try{
-            BigInteger update= baseCarAndTagService.baseEditCar(id,numberPlate,model,businessStatus,examineStatus,licenseFrontPic,
-                    licenseBackPic,transportPic,trailerPic,transport,trailer,isDeleted,enterpriseId,tags);
+            BigInteger update= carService.editCar(id,numberPlate,model,businessStatus,examineStatus,licenseFrontPic,
+                    licenseBackPic,transportPic,trailerPic,transport,trailer,isDeleted,enterpriseId);
             message="update success id:"+update.toString();
             return new Response<>(1001);
         }catch (RuntimeException e){
@@ -121,7 +112,7 @@ public class CarController {
      */
     @RequestMapping("/car/delete")
     public Response carDelete(@RequestParam(value = "id") BigInteger id){
-        int rem=baseCarAndTagService.CarAndRelationDeleted(id);
+        int rem=carService.delete(id);
         return rem==1? new Response<>(1001): new Response<>(1003);
     }
     /**
@@ -131,14 +122,12 @@ public class CarController {
     @RequestMapping("/car/list")
     public Response carList(@RequestParam(value = "page")int page,
                           @RequestParam(value = "numberPlate",required = false)String numberPlate,
-                          @RequestParam(value = "enterpriseName",required = false) String enterpriseName,
-                          @RequestParam(value = "tag",required = false) String tag
+                          @RequestParam(value = "enterpriseName",required = false) String enterpriseName
     ){
         int pageSize=5;
-        tag=tag==null?null:tag.trim();
         numberPlate=numberPlate==null?null:numberPlate.trim();
         enterpriseName=enterpriseName==null?null:enterpriseName.trim();
-        List<Car> cars=baseCarAndTagService.baseGetCarList(numberPlate,enterpriseName,tag,page,pageSize);
+        List<Car> cars=carService.getCarList(numberPlate,enterpriseName,page,pageSize);
         //将carList的id重组成新的list
         List<BigInteger> idList=cars.stream().map(Car::getEnterpriseId).collect(Collectors.toList());
         List<Enterprise> enterpriseList=enterpriseService.getByIdList(idList);
@@ -202,7 +191,7 @@ public class CarController {
             return new Response<>(1004);
         }
         //本地上传
-//        //目录
+        //目录
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/");
 //        String directory = format.format(new Date());
 //        File dir = new File(fileSavePath + directory);
@@ -236,15 +225,21 @@ public class CarController {
         String newName=UUID.randomUUID().toString().replaceAll("-", "")+"_"+ar+".png";
         //上传到oos
         try {
-            String imageUrl = OSSUtil.addimage(picture, newName);
+            String[] imageUrl = OSSUtil.addimage(picture, newName);
             imageVO imageVo=new imageVO();
-            imageVo.setScr(imageUrl);
-            imageVo.setAr(w.doubleValue()/h.doubleValue());
-            imageBaseVO baseVO=new imageBaseVO();
-            baseVO.setImage(imageVo);
-            return new Response<>(1001,baseVO);
+            if(imageUrl[0].equals("200")){
+                imageVo.setScr(imageUrl[1]);
+                imageVo.setAr(w.doubleValue()/h.doubleValue());
+                imageBaseVO baseVO=new imageBaseVO();
+                baseVO.setImage(imageVo);
+                return new Response<>(1001,baseVO);
+            }else {
+                log.error(imageUrl[1]);
+                return new Response<>(1004);
+            }
         }catch (Exception e){
-            return new Response<>(1004,e.getMessage());
+            log.error(e.getMessage(),e);
+            return new Response<>(1004);
         }
     }
 }

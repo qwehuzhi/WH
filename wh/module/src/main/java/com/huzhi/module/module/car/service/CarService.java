@@ -2,14 +2,11 @@ package com.huzhi.module.module.car.service;
 
 import com.huzhi.module.module.car.entity.Car;
 import com.huzhi.module.module.car.mapper.CarMapper;
-import com.huzhi.module.module.car.entity.CarTag;
-import com.huzhi.module.module.car.entity.CarTagRelation;
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import com.huzhi.module.module.enterprise.service.EnterpriseService;
 import com.huzhi.module.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -85,7 +82,7 @@ public class CarService {
         return updateCar.getId();
     }
     /**
-     * 关联relation表
+     *
      * 删除：逻辑删除
      */
     public int delete(BigInteger id){
@@ -96,9 +93,9 @@ public class CarService {
      */
 
 
-    public List<Car> getCarList(String numberPlate, String enterpriseName,String idRange, int page, int pageSize){
+    public List<Car> getCarList(String numberPlate, String enterpriseName, int page, int pageSize){
         String enterpriseId=enterpriseService.getIdByOption(enterpriseName);
-        return mapper.getCarList(numberPlate,enterpriseId,idRange,(page-1)*pageSize,pageSize);
+        return mapper.getCarList(numberPlate,enterpriseId,(page-1)*pageSize,pageSize);
     }
     /**
      * 查询：车辆信息总数附带模糊查询

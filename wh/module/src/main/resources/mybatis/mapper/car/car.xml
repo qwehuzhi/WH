@@ -7,7 +7,6 @@
         select * from car
         where 1=1
         <if test="numberPlate != null and numberPlate != ''">and number_plate like concat('%',#{numberPlate},'%')</if>
-        <if test="idRange != null">and id in (${idRange})</if>
         <if test="enterpriseId != null and enterpriseId != ''">and enterprise_id in (${enterpriseId})</if>
         order by id desc
         limit #{offset},#{pageSize}
