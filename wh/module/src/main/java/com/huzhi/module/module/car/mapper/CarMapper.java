@@ -47,7 +47,7 @@ public interface CarMapper {
      * @return
      */
     List<Car> getCarList(@Param(value = "numberPlate")String numberPlate,
-                         @Param(value = "enterpriseId") String enterpriseId,
+                         @Param(value = "carEnterpriseId") String carEnterpriseId,
                          @Param(value = "offset")int offset,
                          @Param(value = "pageSize") int pageSize);
     /**
@@ -55,5 +55,5 @@ public interface CarMapper {
      * @return
      */
     Integer getCarsTotal(@Param(value = "numberPlate") String numberPlate,
-                         @Param(value = "enterpriseId") String enterpriseId);
+                         @Param(value = "carEnterpriseId") String carEnterpriseId);
 }

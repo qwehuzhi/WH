@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class GlobalErrorController implements ErrorController {
     @RequestMapping("/error")
     public Response error(){
-        return new Response<>(4004);
+        return new Response(4004);
     }
 }

@@ -26,6 +26,6 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(Exception.class)
     public Response handleStoreAuthException(Exception e) {
         log.error(e.getMessage(),e);
-        return new Response<>(4004,e.toString());
+        return new Response(4004,e.toString());
     }
 }

@@ -36,7 +36,9 @@ public class ImageUtil {
                 return wh;
             }
         }
-
+/**
+ * try会导致开启两次IO流，不准用
+ */
         try {
             URL url = new URL(imageUrl);
             BufferedImage sourceImg = ImageIO.read(new BufferedInputStream(url.openStream()));

@@ -7,7 +7,7 @@
         select * from car
         where 1=1
         <if test="numberPlate != null and numberPlate != ''">and number_plate like concat('%',#{numberPlate},'%')</if>
-        <if test="enterpriseId != null and enterpriseId != ''">and enterprise_id in (${enterpriseId})</if>
+        <if test="carEnterpriseId != null and carEnterpriseId != ''">and car_enterprise_id in (${carEnterpriseId})</if>
         order by id desc
         limit #{offset},#{pageSize}
     </select>
@@ -15,7 +15,7 @@
         select count(*) from car
         where 1=1
         <if test="numberPlate != null and numberPlate != ''">and number_plate like concat('%',#{numberPlate},'%')</if>
-        <if test="enterpriseId != null and enterpriseId != ''">and enterprise_id in (${enterpriseId})</if>
+        <if test="carEnterpriseId != null and carEnterpriseId != ''">and car_enterprise_id in (${carEnterpriseId})</if>
     </select>
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into car(
@@ -28,7 +28,7 @@
         <if test="car.transportPic != null and car.transportPic != ''">transport_pic,</if>
         <if test="car.trailerPic != null and car.trailerPic != ''">trailer_pic,</if>
         <if test="car.businessStatus != null">business_status,</if>
-        <if test="car.enterpriseId != null">enterprise_id,</if>
+        <if test="car.carEnterpriseId != null">car_enterprise_id,</if>
         <if test="car.createTime != null">create_time,</if>
         <if test="car.updateTime != null">update_time,</if>
         is_deleted
@@ -42,7 +42,7 @@
         <if test="car.transportPic != null and car.transportPic != ''">#{car.transportPic},</if>
         <if test="car.trailerPic != null and car.trailerPic != ''">#{car.trailerPic},</if>
         <if test="car.businessStatus != null">#{car.businessStatus},</if>
-        <if test="car.enterpriseId != null">#{car.enterpriseId},</if>
+        <if test="car.carEnterpriseId != null">#{car.carEnterpriseId},</if>
         <if test="car.createTime != null">#{car.createTime},</if>
         <if test="car.updateTime != null">#{car.updateTime},</if>
         #{car.isDeleted}
@@ -61,7 +61,7 @@
         <if test="car.licenseBackPic != null and car.licenseBackPic != ''">,license_back_pic = #{car.licenseBackPic}</if>
         <if test="car.transportPic != null and car.transportPic != ''">,transport_pic = #{car.transportPic}</if>
         <if test="car.trailerPic != null and car.trailerPic != ''">,trailer_pic = #{car.trailerPic}</if>
-        <if test="car.enterpriseId != null">,enterprise_id = #{car.enterpriseId}</if>
+        <if test="car.carEnterpriseId != null">,car_enterprise_id = #{car.carEnterpriseId}</if>
         <if test="car.updateTime != null">,update_time = #{car.updateTime}</if>
         <if test="car.isDeleted != null">,is_deleted = #{car.isDeleted}</if>
         where id = #{car.id}

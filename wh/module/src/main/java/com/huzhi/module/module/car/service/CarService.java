@@ -52,7 +52,7 @@ public class CarService {
         insertCar.setTrailerPic(trailerPic);
         insertCar.setTransport(transport);
         insertCar.setTrailer(trailer);
-        insertCar.setEnterpriseId(enterpriseId);
+        insertCar.setCarEnterpriseId(enterpriseId);
         insertCar.setCreateTime(TimeUtil.getNowTime());
         mapper.insert(insertCar);
         return insertCar.getId();
@@ -76,7 +76,7 @@ public class CarService {
         updateCar.setTrailerPic(trailerPic);
         updateCar.setTransport(transport);
         updateCar.setTrailer(trailer);
-        updateCar.setEnterpriseId(enterpriseId);
+        updateCar.setCarEnterpriseId(enterpriseId);
         updateCar.setIsDeleted(isDeleted);
         mapper.update(updateCar);
         return updateCar.getId();
@@ -155,7 +155,7 @@ public class CarService {
         car.setLicenseBackPic(licenseBackPic);
         car.setTransportPic(transportPic);
         car.setBusinessStatus(businessStatus);
-        car.setEnterpriseId(enterpriseId);
+        car.setCarEnterpriseId(enterpriseId);
         if (id != null) {
             car.setExamineStatus(examineStatus);
             car.setIsDeleted(isDeleted);

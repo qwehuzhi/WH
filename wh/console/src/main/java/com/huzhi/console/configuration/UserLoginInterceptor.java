@@ -15,6 +15,8 @@ public class UserLoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
+        return true;
+        /**
         String isAppS = SpringUtil.getProperty("application.isapp");
         boolean isConsole = isAppS.equals("1") ? false : true;
         if(isConsole){
@@ -37,6 +39,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         }
 
         return false;
+         */
         //如果设置为false时，被请求时，拦截器执行到此处将不会继续操作
         //如果设置为true时，请求将会继续执行后面的操作
     }

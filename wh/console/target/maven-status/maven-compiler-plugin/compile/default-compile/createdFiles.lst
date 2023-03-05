@@ -1,9 +1,9 @@
 com\huzhi\console\domain\car\CarListBaseVO.class
 com\huzhi\console\UserAuthorityResolver.class
 com\huzhi\console\controller\GlobalErrorController.class
+com\huzhi\console\controller\utils\ImageController.class
 com\huzhi\console\domain\user\UserInfoVo.class
 com\huzhi\console\controller\car\CarController.class
-com\huzhi\console\controller\tag\TagController.class
 com\huzhi\console\annotations\VerifiedUser.class
 com\huzhi\console\domain\car\CarInfoVO.class
 com\huzhi\console\domain\car\CarListVO.class
@@ -11,6 +11,7 @@ com\huzhi\console\CorsConfig.class
 com\huzhi\console\domain\car\imageVO.class
 com\huzhi\console\ConsoleApplication.class
 com\huzhi\console\domain\car\imageBaseVO.class
+com\huzhi\console\controller\utils\OssController.class
 com\huzhi\console\controller\GlobalControllerAdvice.class
 com\huzhi\console\WebMvcConfiguration.class
 com\huzhi\console\configuration\UserLoginInterceptor.class

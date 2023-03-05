@@ -22,8 +22,11 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 public class UserController {
+    private final BaseUserService baseUserService;
     @Autowired
-    private BaseUserService baseUserService;
+    public UserController(BaseUserService baseUserService){
+        this.baseUserService=baseUserService;
+    }
 @RequestMapping("/user/login/web")
 public Response loginWeb(@VerifiedUser User loginUser,
                          HttpSession httpSession,
@@ -31,7 +34,7 @@ public Response loginWeb(@VerifiedUser User loginUser,
                          @RequestParam(name = "password") String password,
                          @RequestParam(name = "remember") boolean remember) {
     if (!BaseUtil.isEmpty(loginUser)) {
-        return new Response<>(4004);
+        return new Response(4004);
     }
 
     boolean result;
@@ -41,7 +44,7 @@ public Response loginWeb(@VerifiedUser User loginUser,
         result = baseUserService.login(phone, "86", password, false, false, 0);
     }
     if (!result) {
-        return new Response<>(1010);
+        return new Response(1010);
     }
 
     User user = baseUserService.getByPhone(phone);
@@ -57,6 +60,6 @@ public Response loginWeb(@VerifiedUser User loginUser,
     // 写session
     httpSession.setAttribute(SpringUtil.getProperty("application.session.key"), JSON.toJSONString(user));
 
-    return new Response<>(1001,userInfo);
+    return new Response(1001,userInfo);
 }
 }

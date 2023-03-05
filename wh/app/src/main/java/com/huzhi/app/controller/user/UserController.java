@@ -23,8 +23,11 @@ import java.math.BigInteger;
 
 @RestController
 public class UserController {
+    private final BaseUserService baseUserService;
     @Autowired
-    private BaseUserService baseUserService;
+    public UserController(BaseUserService baseUserService){
+        this.baseUserService=baseUserService;
+    }
 
     /**
      * 用户登录
@@ -35,13 +38,13 @@ public class UserController {
                              @RequestParam(name = "phone") String phone,
                              @RequestParam(name = "password") String password) {
         if (!BaseUtil.isEmpty(loginUser)) {
-            return new Response<>(4004);
+            return new Response(4004);
         }
 
         //合法用户直接登录
         boolean result = baseUserService.login(phone, password);
         if (!result) {
-            return new Response<>(4004);
+            return new Response(4004);
         }
         User user = baseUserService.getByPhone(phone);
 
@@ -58,7 +61,7 @@ public class UserController {
         loginInfo.setSign(SignUtil.makeSign(user.getId()));
 
         loginInfo.setUserInfo(userInfo);
-        return new Response<>(1001,loginInfo);
+        return new Response(1001,loginInfo);
     }
 
     /**
@@ -76,7 +79,7 @@ public class UserController {
                                 @RequestParam(name = "province", required = false) String province,
                                 @RequestParam(name = "city", required = false) String city) {
         if (!BaseUtil.isEmpty(loginUser)) {
-            return new Response<>(4004);
+            return new Response(4004);
         }
 
 
@@ -89,19 +92,19 @@ public class UserController {
         if(!BaseUtil.isEmpty(user)){
             //如果用户被禁止登录
             if(user.getIsDeleted().equals(1) || user.getIsBan().equals(1)){
-                return new Response<>(1010);
+                return new Response(1010);
             }
             newUserId = user.getId();
             baseUserService.refreshUserLoginContext(user.getId(), IpUtil.getIpAddress(request), TimeUtil.getNowTime());
         }else {
             //注册新用户
             if (!UserDefine.isGender(gender)) {
-                return new Response<>(2014);
+                return new Response(2014);
             }
             try {
                 newUserId = baseUserService.registerUser(name, phone, gender, avatar, password,country, province, city, IpUtil.getIpAddress(request));
             } catch (Exception exception) {
-                return new Response<>(4004);
+                return new Response(4004);
             }
 
         }
@@ -117,6 +120,6 @@ public class UserController {
         UserLoginInfoVo loginInfo = new UserLoginInfoVo();
         loginInfo.setSign(SignUtil.makeSign(user.getId()));
         loginInfo.setUserInfo(userInfo);
-        return new Response<>(1001,loginInfo);
+        return new Response(1001,loginInfo);
     }
 }

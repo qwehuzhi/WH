@@ -6,7 +6,6 @@ import com.huzhi.module.module.car.entity.Car;
 import com.huzhi.module.module.car.service.CarService;
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import com.huzhi.module.module.enterprise.service.EnterpriseService;
-import com.huzhi.module.module.user.service.BaseUserService;
 import com.huzhi.module.response.Response;
 import com.huzhi.module.utils.ImageUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -28,18 +27,14 @@ public class CarController {
     /**
      * size规定分页的大小
      */
-    int pageSize =5;
+    private static final int pageSize =5;
     private final CarService carService;
     private final EnterpriseService enterpriseService;
-
-    private final BaseUserService baseUserService;
     @Autowired
     public CarController(CarService carService,
-                         EnterpriseService enterpriseService,
-                         BaseUserService baseUserService){
+                         EnterpriseService enterpriseService){
         this.carService=carService;
         this.enterpriseService=enterpriseService;
-        this.baseUserService=baseUserService;
     }
     /**
      * app车辆列表
@@ -66,19 +61,19 @@ public class CarController {
         String wpBase= Base64.getUrlEncoder().encodeToString(JSONObject.toJSONString(wpMassage).getBytes(StandardCharsets.UTF_8));
         List<Car> cars=carService.getCarList(wpMassage.getNumberPlate(),wpMassage.getEnterpriseName(),wpMassage.getPage(), pageSize);
         //将carList的id重组成新的list
-        List<BigInteger> idList=cars.stream().map(Car::getEnterpriseId).collect(Collectors.toList());
+        List<BigInteger> idList=cars.stream().map(Car::getCarEnterpriseId).collect(Collectors.toList());
         List<Enterprise> enterpriseList=enterpriseService.getByIdList(idList);
         //获取id和名称的键值对，方便返回名称
         Map<BigInteger,String> enterpriseMap=enterpriseList.stream().collect(Collectors.toMap(Enterprise::getId,Enterprise::getName));
         List<BigInteger> matchedId=enterpriseList.stream().map(Enterprise::getId).collect(Collectors.toList());
         List<CarListBaseVO> list=new ArrayList<>();
         for (Car e : cars) {
-            if (matchedId.contains(e.getEnterpriseId())) {
+            if (matchedId.contains(e.getCarEnterpriseId())) {
                 CarListBaseVO entity = new CarListBaseVO();
                 entity.setId(e.getId());
                 entity.setModel(e.getModel());
                 entity.setNumberPlate(e.getNumberPlate());
-                entity.setEnterpriseName(enterpriseMap.get(e.getEnterpriseId()));
+                entity.setEnterpriseName(enterpriseMap.get(e.getCarEnterpriseId()));
                 entity.setExamineStatus(e.getExamineStatus());
                 entity.setBusinessStatus(e.getBusinessStatus());
                 list.add(entity);
@@ -88,7 +83,7 @@ public class CarController {
         carListVO.setList(list);
         carListVO.setWp(wpBase);
         carListVO.setIsEnd(cars.size() < pageSize);
-        return new Response<>(1001,carListVO);
+        return new Response(1001,carListVO);
     }
     /**
      * app车辆详情
@@ -113,7 +108,7 @@ public class CarController {
         infoVO.setTrailerPic(new imageVO().setScr(car.getTrailerPic()).setAr(trailerWh[0].doubleValue()/trailerWh[1].doubleValue()));
         infoVO.setTransport(car.getTransport());
         infoVO.setTrailer(car.getTrailer());
-        infoVO.setEnterpriseName(enterpriseService.getById(car.getEnterpriseId()).getName());
-    return new Response<>(1001,infoVO);
+        infoVO.setEnterpriseName(enterpriseService.getById(car.getCarEnterpriseId()).getName());
+    return new Response(1001,infoVO);
     }
 }
