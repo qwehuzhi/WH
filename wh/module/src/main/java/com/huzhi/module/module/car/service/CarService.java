@@ -4,12 +4,13 @@ import com.huzhi.module.module.car.entity.Car;
 import com.huzhi.module.module.car.mapper.CarMapper;
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import com.huzhi.module.module.enterprise.service.EnterpriseService;
-import com.huzhi.module.utils.TimeUtil;
+import com.huzhi.module.utils.BaseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CarService {
@@ -39,61 +40,29 @@ public class CarService {
      * 插入车辆信息
      * @return
      */
-    public BigInteger insert(String numberPlate,String model,Integer businessStatus,String licenseFrontPic,
-                          String licenseBackPic,String transportPic,String trailerPic,String transport,
-                          String trailer,BigInteger enterpriseId){
-        Car insertCar=new Car();
-        insertCar.setNumberPlate(numberPlate);
-        insertCar.setModel(model);
-        insertCar.setBusinessStatus(businessStatus);
-        insertCar.setLicenseFrontPic(licenseFrontPic);
-        insertCar.setLicenseBackPic(licenseBackPic);
-        insertCar.setTransportPic(transportPic);
-        insertCar.setTrailerPic(trailerPic);
-        insertCar.setTransport(transport);
-        insertCar.setTrailer(trailer);
-        insertCar.setCarEnterpriseId(enterpriseId);
-        insertCar.setCreateTime(TimeUtil.getNowTime());
-        mapper.insert(insertCar);
-        return insertCar.getId();
+    public Integer insert(Car car){
+        return mapper.insert(car);
     }
     /**
      * 修改车辆信息
      * @return
      */
-    public BigInteger update(BigInteger id,String numberPlate,String model,Integer businessStatus,Integer examineStatus,
-                          String licenseFrontPic,String licenseBackPic,String transportPic,String trailerPic,
-                          String transport,String trailer,BigInteger enterpriseId,Integer isDeleted){
-        Car updateCar=new Car();
-        updateCar.setId(id);
-        updateCar.setExamineStatus(examineStatus);
-        updateCar.setNumberPlate(numberPlate);
-        updateCar.setModel(model);
-        updateCar.setBusinessStatus(businessStatus);
-        updateCar.setLicenseFrontPic(licenseFrontPic);
-        updateCar.setLicenseBackPic(licenseBackPic);
-        updateCar.setTransportPic(transportPic);
-        updateCar.setTrailerPic(trailerPic);
-        updateCar.setTransport(transport);
-        updateCar.setTrailer(trailer);
-        updateCar.setCarEnterpriseId(enterpriseId);
-        updateCar.setIsDeleted(isDeleted);
-        mapper.update(updateCar);
-        return updateCar.getId();
+    public Integer update(Car car){
+        return mapper.update(car);
     }
     /**
      *
      * 删除：逻辑删除
      */
     public int delete(BigInteger id){
-        return mapper.delete(id,TimeUtil.getNowTime());
+        return mapper.delete(id, BaseUtil.currentSeconds());
     }
     /**
      * 查询：列表显示所有车辆信息并分页
      */
 
 
-    public List<Car> getCarList(String numberPlate, String enterpriseName, int page, int pageSize){
+    public List<Car> getCarList(String numberPlate, String enterpriseName, Integer page, Integer pageSize){
         String enterpriseId=enterpriseService.getIdByOption(enterpriseName);
         return mapper.getCarList(numberPlate,enterpriseId,(page-1)*pageSize,pageSize);
     }
@@ -111,69 +80,97 @@ public class CarService {
      * 最后返回值都是id
      */
 
-    public BigInteger editCar(BigInteger id, String numberPlate, String model, Integer businessStatus, Integer examineStatus,
+    public BigInteger editCar(BigInteger id, String numberPlate, String model,Integer examineStatus,
                               String licenseFrontPic, String licenseBackPic, String transportPic, String trailerPic,
-                              String transport, String trailer, Integer isDeleted, BigInteger enterpriseId){
-        if (numberPlate==null || numberPlate.equals("")){
-            throw new RuntimeException("Error not have numberPlate");
-        }
-        if (model==null || model.equals("")){
-            throw new RuntimeException("Error not have model");
-        }
-        if (transport==null || transport.equals("")){
-            throw new RuntimeException("Error not have transport");
-        }
-        if (licenseFrontPic==null ){
-            throw new RuntimeException("Error not have licenseFrontPic");
-        }
-        if (licenseBackPic==null ){
-            throw new RuntimeException("Error not have licenseBackPic");
-        }
-        if (transportPic==null ){
-            throw new RuntimeException("Error not have transportPic");
-        }
-        if (enterpriseId==null){
-            throw new RuntimeException("Error not have enterpriseId");
+                              String transport, String trailer, Integer isDeleted, BigInteger enterpriseId,
+                              String examineRemarks,Integer licenseFrontExpired){
+        if (BaseUtil.isEmpty(numberPlate) || BaseUtil.isEmpty(model) || BaseUtil.isEmpty(transport) ||
+                BaseUtil.isEmpty(licenseFrontPic) || BaseUtil.isEmpty(licenseBackPic) ||
+                BaseUtil.isEmpty(transportPic) || BaseUtil.isEmpty(enterpriseId) ||
+                BaseUtil.isEmpty(licenseFrontExpired)){
+            throw new RuntimeException("Error not Parameter does not exist");
         }
         Enterprise enterprise=enterpriseService.getById(enterpriseId);
-        if(enterprise==null){
+        if(BaseUtil.isEmpty(enterprise)){
             throw new RuntimeException("Error not have enterprise");
         }
-        if (id != null &&isDeleted==null){
+        if (!BaseUtil.isEmpty(id) && BaseUtil.isEmpty(isDeleted)){
             throw new RuntimeException("Error not have isDeleted");
         }
         Car oldCar = mapper.extractById(id);
-        if (id != null && oldCar ==null){
+        if (!BaseUtil.isEmpty(id) && BaseUtil.isEmpty(oldCar)){
             throw new RuntimeException("Database not have ID:"+id);
         }
         Car car=new Car();
         car.setNumberPlate(numberPlate);
         car.setModel(model);
-        car.setTransport(trailer);
+        car.setTransport(transport);
+        car.setTrailer(trailer);
         car.setTrailerPic(trailerPic);
         car.setLicenseFrontPic(licenseFrontPic);
         car.setLicenseBackPic(licenseBackPic);
         car.setTransportPic(transportPic);
-        car.setBusinessStatus(businessStatus);
-        car.setCarEnterpriseId(enterpriseId);
+        car.setExamineRemarks(examineRemarks);
+        car.setLicenseFrontExpired(licenseFrontExpired);
+        car.setEnterpriseId(enterpriseId);
         if (id != null) {
             car.setExamineStatus(examineStatus);
             car.setIsDeleted(isDeleted);
             car.setId(id);
-            Integer number=mapper.update(car);
-            if (number != 1){
-                throw new RuntimeException("Update is fail");
-            }
+            update(car);
         }
         else{
-            car.setCreateTime(TimeUtil.getNowTime());
+            car.setCreateTime(BaseUtil.currentSeconds());
             car.setIsDeleted(isDeleted);
-            Integer number=mapper.insert(car);
-            if (number == null){
-                throw new RuntimeException("Insert is fail");
-            }
+            Integer number=insert(car);
+            car.setId(BigInteger.valueOf(number));
         }
         return car.getId();
     }
+    /**
+     * 审核
+     */
+    public Integer examine(BigInteger id,Integer examineStatus,String examineRemarks){
+        return mapper.examine(id, examineStatus, examineRemarks, BaseUtil.currentSeconds());
+    }
 
+    /**
+     * 模糊查询返回id
+     */
+    public String getIdByOption(String carName){
+            String IdsToString="";
+            List<String> IdList=mapper.getIdByOption(carName);
+            if (IdList.size() != 0){
+                for(String s:IdList){
+                    IdsToString=BaseUtil.implodeSearchParam(IdsToString,s);
+                }
+            }
+            return IdsToString;
+    }
+    /**
+     * 通过多个id获取
+     */
+    public List<Car> getListByIdList(List<BigInteger> idList){
+        if(BaseUtil.isEmpty(idList)){
+            throw new RuntimeException("idList is null");
+        }
+        String ids=idList.stream().distinct().collect(Collectors.toList()).toString().substring(1);
+        StringBuilder enterpriseId=new StringBuilder(ids);
+        enterpriseId.deleteCharAt(enterpriseId.length()-1);
+        ids=enterpriseId.toString();
+        return mapper.getNameByIds(ids);
+    }
+    /**
+     *模糊搜索审核通过的车辆
+     */
+    public List<Car> getBySelect(String carNumberPlate){
+        return mapper.getBySelect(carNumberPlate);
+    }
+    /**
+     * 计算前一天的单日增量
+     */
+    public Integer getYesterdayIncrementForCar(){
+        Integer begin=BaseUtil.getCalendar0Time();
+        return mapper.getYesterdayIncrementForCar(begin,begin+86400);
+    }
 }

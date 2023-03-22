@@ -13,7 +13,6 @@ public class CarListBaseVO implements Serializable {
     private String numberPlate;//车牌
     private String model;//车型
     private String enterpriseName;//公司id
-    private Integer businessStatus;//业务状态
     private Integer examineStatus;//审核状态
 
 }

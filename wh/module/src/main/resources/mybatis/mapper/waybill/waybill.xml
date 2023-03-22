@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.waybill.mapper.WaybillMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="com.huzhi.module.module.waybill.entity.Waybill">
+        insert into waybill(
+        <if test="waybill.carId != null">car_id,</if>
+        <if test="waybill.driverId != null">driver_id,</if>
+        <if test="waybill.clientId != null">client_id,</if>
+        <if test="waybill.companyId != null">company_id,</if>
+        <if test="waybill.waybillNumber != null and waybill.waybillNumber != ''">waybill_number,</if>
+        <if test="waybill.typeOfGoods != null and waybill.typeOfGoods != ''">type_of_goods,</if>
+        <if test="waybill.weightOfGoods != null">weight_of_goods,</if>
+        <if test="waybill.volumeOfGoods != null">volume_of_goods,</if>
+        <if test="waybill.deliveryTime != null">delivery_time,</if>
+        <if test="waybill.deliveryProvince != null and waybill.deliveryProvince != ''">delivery_province,</if>
+        <if test="waybill.deliveryCity != null and waybill.deliveryCity != ''">delivery_city,</if>
+        <if test="waybill.deliveryRegion != null and waybill.deliveryRegion != ''">delivery_region,</if>
+        <if test="waybill.deliveryAddress != null and waybill.deliveryAddress != ''">delivery_address,</if>
+        <if test="waybill.arrivalTime != null">arrival_time,</if>
+        <if test="waybill.arrivalProvince != null and waybill.arrivalProvince != ''">arrival_province,</if>
+        <if test="waybill.arrivalCity != null and waybill.arrivalCity != ''">arrival_city,</if>
+        <if test="waybill.arrivalRegion != null and waybill.arrivalRegion != ''">arrival_region,</if>
+        <if test="waybill.arrivalAddress != null and waybill.arrivalAddress != ''">arrival_address,</if>
+        <if test="waybill.remarks != null and waybill.remarks != ''">remarks,</if>
+        <if test="waybill.examineRemarks != null and waybill.examineRemarks != ''">examine_remarks,</if>
+        <if test="waybill.examineStatus != null">examine_status,</if>
+        <if test="waybill.createTime != null">create_time,</if>
+        <if test="waybill.updateTime != null">update_time,</if>
+        is_deleted
+        )values(
+        <if test="waybill.carId != null">#{waybill.carId},</if>
+        <if test="waybill.driverId != null">#{waybill.driverId},</if>
+        <if test="waybill.clientId != null">#{waybill.clientId},</if>
+        <if test="waybill.companyId != null">#{waybill.companyId},</if>
+        <if test="waybill.waybillNumber != null and waybill.waybillNumber != ''">#{waybill.waybillNumber},</if>
+        <if test="waybill.typeOfGoods != null and waybill.typeOfGoods != ''">#{waybill.typeOfGoods},</if>
+        <if test="waybill.weightOfGoods != null">#{waybill.weightOfGoods},</if>
+        <if test="waybill.volumeOfGoods != null">#{waybill.volumeOfGoods},</if>
+        <if test="waybill.deliveryTime != null">#{waybill.deliveryTime},</if>
+        <if test="waybill.deliveryProvince != null and waybill.deliveryProvince != ''">#{waybill.deliveryProvince},</if>
+        <if test="waybill.deliveryCity != null and waybill.deliveryCity != ''">#{waybill.deliveryCity},</if>
+        <if test="waybill.deliveryRegion != null and waybill.deliveryRegion != ''">#{waybill.deliveryRegion},</if>
+        <if test="waybill.deliveryAddress != null and waybill.deliveryAddress != ''">#{waybill.deliveryAddress},</if>
+        <if test="waybill.arrivalTime != null">#{waybill.arrivalTime},</if>
+        <if test="waybill.arrivalProvince != null and waybill.arrivalProvince != ''">#{waybill.arrivalProvince},</if>
+        <if test="waybill.arrivalCity != null and waybill.arrivalCity != ''">#{waybill.arrivalCity},</if>
+        <if test="waybill.arrivalRegion != null and waybill.arrivalRegion != ''">#{waybill.arrivalRegion},</if>
+        <if test="waybill.arrivalAddress != null and waybill.arrivalAddress != ''">#{waybill.arrivalAddress},</if>
+        <if test="waybill.remarks != null and waybill.remarks != ''">#{waybill.remarks},</if>
+        <if test="waybill.examineRemarks != null and waybill.examineRemarks != ''">#{waybill.examineRemarks},</if>
+        <if test="waybill.examineStatus != null">#{waybill.examineStatus},</if>
+        <if test="waybill.createTime != null">#{waybill.createTime},</if>
+        <if test="waybill.updateTime != null">#{waybill.updateTime},</if>
+        #{waybill.isDeleted}
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="com.huzhi.module.module.waybill.entity.Waybill">
+        update waybill
+        set id = #{waybill.id}
+                <if test="waybill.carId != null"> , car_id = #{waybill.carId}</if>
+                <if test="waybill.driverId != null"> , driver_id = #{waybill.driverId}</if>
+                <if test="waybill.clientId != null"> , client_id = #{waybill.clientId}</if>
+                <if test="waybill.companyId != null"> , company_id = #{waybill.companyId}</if>
+                <if test="waybill.waybillNumber != null and waybill.waybillNumber != ''"> , waybill_number = #{waybill.waybillNumber}</if>
+                <if test="waybill.typeOfGoods != null and waybill.typeOfGoods != ''"> , type_of_goods = #{waybill.typeOfGoods}</if>
+                <if test="waybill.weightOfGoods != null"> , weight_of_goods = #{waybill.weightOfGoods}</if>
+                <if test="waybill.volumeOfGoods != null"> , volume_of_goods = #{waybill.volumeOfGoods}</if>
+                <if test="waybill.deliveryTime != null"> , delivery_time = #{waybill.deliveryTime}</if>
+                <if test="waybill.deliveryProvince != null and waybill.deliveryProvince != ''"> , delivery_province = #{waybill.deliveryProvince}</if>
+                <if test="waybill.deliveryCity != null and waybill.deliveryCity != ''"> , delivery_city = #{waybill.deliveryCity}</if>
+                <if test="waybill.deliveryRegion != null and waybill.deliveryRegion != ''"> , delivery_region = #{waybill.deliveryRegion}</if>
+                <if test="waybill.deliveryAddress != null and waybill.deliveryAddress != ''"> , delivery_address = #{waybill.deliveryAddress}</if>
+                <if test="waybill.arrivalTime != null"> , arrival_time = #{waybill.arrivalTime}</if>
+                <if test="waybill.arrivalProvince != null and waybill.arrivalProvince != ''"> , arrival_province = #{waybill.arrivalProvince}</if>
+                <if test="waybill.arrivalCity != null and waybill.arrivalCity != ''"> , arrival_city = #{waybill.arrivalCity}</if>
+                <if test="waybill.arrivalRegion != null and waybill.arrivalRegion != ''"> , arrival_region = #{waybill.arrivalRegion}</if>
+                <if test="waybill.arrivalAddress != null and waybill.arrivalAddress != ''"> , arrival_address = #{waybill.arrivalAddress}</if>
+                <if test="waybill.remarks != null and waybill.remarks != ''"> , remarks = #{waybill.remarks}</if>
+                <if test="waybill.examineRemarks != null and waybill.examineRemarks != ''"> , examine_remarks = #{waybill.examineRemarks}</if>
+                <if test="waybill.examineStatus != null"> , examine_status = #{waybill.examineStatus}</if>
+                <if test="waybill.createTime != null"> , create_time = #{waybill.createTime}</if>
+                <if test="waybill.updateTime != null"> , update_time = #{waybill.updateTime}</if>
+                <if test="waybill.isDeleted != null"> , is_deleted = #{waybill.isDeleted}</if>
+        where id = #{waybill.id}
+    </update>
+    <select id="getList" resultType="com.huzhi.module.module.waybill.entity.Waybill">
+        select * from waybill
+        <trim prefix="where" suffixOverrides="and">
+            <if test="companyIds != null and companyIds != ''">company_id in (${companyIds}) and</if>
+            <if test="clientIds != null and clientIds != ''">client_id in (${clientIds}) and</if>
+            <if test="driverIds != null and driverIds != ''">driver_id in (${driverIds}) and</if>
+            <if test="carIds != null and carIds != ''">car_id in (${carIds}) and</if>
+            <if test="examineStatus != null">examine_status in (${examineStatus}) and</if>
+            <if test="idDeleted != null">is_deleted = #{idDeleted}</if>
+        </trim>
+        order by id desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="getTotal" resultType="Integer">
+        select count(*) from waybill
+        <trim prefix="where" suffixOverrides="and">
+            <if test="companyIds != null and companyIds != ''">company_id in (${companyIds}) and</if>
+            <if test="clientIds != null and clientIds != ''">client_id in (${clientIds}) and</if>
+            <if test="driverIds != null and driverIds != ''">driver_id in (${driverIds}) and</if>
+            <if test="carIds != null and carIds != ''">car_id in (${carIds}) and</if>
+            <if test="examineStatus != null">examine_status in (${examineStatus}) and</if>
+            <if test="idDeleted != null">is_deleted = #{idDeleted}</if>
+        </trim>
+    </select>
+    <update id="examine">
+        update waybill set
+            <if test="examineStatus != null">examine_status = #{examineStatus},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            examine_remarks = #{examineRemarks}
+        where id=#{id}
+    </update>
+    <select id="timeExamine" resultType="Integer">
+        select id as clash_ids from waybill
+        where (
+            <if test="carId != null">car_id =#{carId}</if>
+            or
+            <if test="driverId != null">driver_id = #{driverId}</if>
+            )
+          and
+        not (
+            <if test="deliveryTime != null">arrival_time > #{deliveryTime}</if>
+            or
+            <if test="arrivalTime != null">delivery_time > #{arrivalTime}</if>
+            )
+    </select>
+
+</mapper>
+

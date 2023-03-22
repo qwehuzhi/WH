@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.driver.mapper.DriverMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="com.huzhi.module.module.driver.entity.Driver">
+        insert into driver(
+        <if test="driver.name != null and driver.name != ''">name,</if>
+        <if test="driver.idNumber != null and driver.idNumber != ''">id_number,</if>
+        <if test="driver.phone != null and driver.phone != ''">phone,</if>
+        <if test="driver.remarks != null and driver.remarks != ''">remarks,</if>
+        <if test="driver.drivingLicenseName != null and driver.drivingLicenseName != ''">driving_license_name,</if>
+        <if test="driver.drivingLicenseAuthority != null and driver.drivingLicenseAuthority != ''">driving_license_authority,</if>
+        <if test="driver.model != null and driver.model != ''">model,</if>
+        <if test="driver.idNumberFrontPic != null and driver.idNumberFrontPic != ''">id_number_front_pic,</if>
+        <if test="driver.idNumberBackPic != null and driver.idNumberBackPic != ''">id_number_back_pic,</if>
+        <if test="driver.drivingLicenseFrontPic != null and driver.drivingLicenseFrontPic != ''">driving_license_front_pic,</if>
+        <if test="driver.drivingLicenseBackPic != null and driver.drivingLicenseBackPic != ''">driving_license_back_pic,</if>
+        <if test="driver.qualificationCertificatePic != null and driver.qualificationCertificatePic != ''">qualification_certificate_pic,</if>
+        <if test="driver.examineRemarks != null and driver.examineRemarks != ''">examine_remarks,</if>
+        <if test="driver.examineStatus != null">examine_status,</if>
+        <if test="driver.idNumberExpired != null">id_number_expired,</if>
+        <if test="driver.drivingLicenseExpired != null">driving_license_expired,</if>
+        <if test="driver.createTime != null">create_time,</if>
+        <if test="driver.updateTime != null">update_time,</if>
+        is_deleted
+        )values(
+        <if test="driver.name != null and driver.name != ''">#{driver.name},</if>
+        <if test="driver.idNumber != null and driver.idNumber != ''">#{driver.idNumber},</if>
+        <if test="driver.phone != null and driver.phone != ''">#{driver.phone},</if>
+        <if test="driver.remarks != null and driver.remarks != ''">#{driver.remarks},</if>
+        <if test="driver.drivingLicenseName != null and driver.drivingLicenseName != ''">#{driver.drivingLicenseName},</if>
+        <if test="driver.drivingLicenseAuthority != null and driver.drivingLicenseAuthority != ''">#{driver.drivingLicenseAuthority},</if>
+        <if test="driver.model != null and driver.model != ''">#{driver.model},</if>
+        <if test="driver.idNumberFrontPic != null and driver.idNumberFrontPic != ''">#{driver.idNumberFrontPic},</if>
+        <if test="driver.idNumberBackPic != null and driver.idNumberBackPic != ''">#{driver.idNumberBackPic},</if>
+        <if test="driver.drivingLicenseFrontPic != null and driver.drivingLicenseFrontPic != ''">#{driver.drivingLicenseFrontPic},</if>
+        <if test="driver.drivingLicenseBackPic != null and driver.drivingLicenseBackPic != ''">#{driver.drivingLicenseBackPic},</if>
+        <if test="driver.qualificationCertificatePic != null and driver.qualificationCertificatePic != ''">#{driver.qualificationCertificatePic},</if>
+        <if test="driver.examineRemarks != null and driver.examineRemarks != ''">#{driver.examineRemarks},</if>
+        <if test="driver.examineStatus != null">#{driver.examineStatus},</if>
+        <if test="driver.idNumberExpired != null">#{driver.idNumberExpired},</if>
+        <if test="driver.drivingLicenseExpired != null">#{driver.drivingLicenseExpired},</if>
+        <if test="driver.createTime != null">#{driver.createTime},</if>
+        <if test="driver.updateTime != null">#{driver.updateTime},</if>
+        #{driver.isDeleted}
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="com.huzhi.module.module.driver.entity.Driver">
+        update driver
+        set id = #{driver.id}
+                <if test="driver.name != null and driver.name != ''"> , name = #{driver.name}</if>
+                <if test="driver.idNumber != null and driver.idNumber != ''"> , id_number = #{driver.idNumber}</if>
+                <if test="driver.phone != null and driver.phone != ''"> , phone = #{driver.phone}</if>
+                <if test="driver.remarks != null and driver.remarks != ''"> , remarks = #{driver.remarks}</if>
+                <if test="driver.drivingLicenseName != null and driver.drivingLicenseName != ''"> , driving_license_name = #{driver.drivingLicenseName}</if>
+                <if test="driver.drivingLicenseAuthority != null and driver.drivingLicenseAuthority != ''"> , driving_license_authority = #{driver.drivingLicenseAuthority}</if>
+                <if test="driver.model != null and driver.model != ''"> , model = #{driver.model}</if>
+                <if test="driver.idNumberFrontPic != null and driver.idNumberFrontPic != ''"> , id_number_front_pic = #{driver.idNumberFrontPic}</if>
+                <if test="driver.idNumberBackPic != null and driver.idNumberBackPic != ''"> , id_number_back_pic = #{driver.idNumberBackPic}</if>
+                <if test="driver.drivingLicenseFrontPic != null and driver.drivingLicenseFrontPic != ''"> , driving_license_front_pic = #{driver.drivingLicenseFrontPic}</if>
+                <if test="driver.drivingLicenseBackPic != null and driver.drivingLicenseBackPic != ''"> , driving_license_back_pic = #{driver.drivingLicenseBackPic}</if>
+                <if test="driver.qualificationCertificatePic != null and driver.qualificationCertificatePic != ''"> , qualification_certificate_pic = #{driver.qualificationCertificatePic}</if>
+                <if test="driver.examineRemarks != null and driver.examineRemarks != ''"> , examine_remarks = #{driver.examineRemarks}</if>
+                <if test="driver.examineStatus != null"> , examine_status = #{driver.examineStatus}</if>
+                <if test="driver.idNumberExpired != null"> , id_number_expired = #{driver.idNumberExpired}</if>
+                <if test="driver.drivingLicenseExpired != null"> , driving_license_expired = #{driver.drivingLicenseExpired}</if>
+                <if test="driver.createTime != null"> , create_time = #{driver.createTime}</if>
+                <if test="driver.updateTime != null"> , update_time = #{driver.updateTime}</if>
+                <if test="driver.isDeleted != null"> , is_deleted = #{driver.isDeleted}</if>
+        where id = #{driver.id}
+    </update>
+    <select id="getList" resultType="com.huzhi.module.module.driver.entity.Driver">
+        select * from driver
+        <trim prefix="where" suffixOverrides="and">
+            <if test="name != null and name != ''">name like concat('%',#{name},'%') and</if>
+            <if test="phone != null and phone != ''">phone like concat('%',#{phone},'%')</if>
+        </trim>
+        order by id desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="getTotal" resultType="Integer">
+        select count(*) from driver
+        <trim prefix="where" suffixOverrides="and">
+            <if test="name != null and name != ''">name like concat('%',#{name},'%') and</if>
+            <if test="phone != null and phone != ''">phone like concat('%',#{phone},'%')</if>
+        </trim>
+    </select>
+    <update id="examine">
+        update driver
+        set
+        examine_status=#{examineStatus},
+        <if test="examineRemarks != null and examineRemarks != ''">examine_remarks=#{examineRemarks},</if>
+        update_time = #{updateTime}
+        where id=#{id}
+    </update>
+
+</mapper>
+

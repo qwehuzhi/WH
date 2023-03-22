@@ -1,13 +1,11 @@
 package com.huzhi.console.configuration;
 
-import com.huzhi.module.utils.BaseUtil;
-import com.huzhi.module.utils.SpringUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 @Component
 public class UserLoginInterceptor implements HandlerInterceptor {
     /**

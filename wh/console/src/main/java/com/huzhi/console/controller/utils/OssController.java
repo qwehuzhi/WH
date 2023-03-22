@@ -1,8 +1,7 @@
 package com.huzhi.console.controller.utils;
 
-import com.huzhi.console.domain.car.imageBaseVO;
-import com.huzhi.console.domain.car.imageVO;
 import com.huzhi.module.response.Response;
+import com.huzhi.module.utils.BaseUtil;
 import com.huzhi.module.utils.FileUtil;
 import com.huzhi.module.utils.OSSUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,7 @@ public class OssController {
         //获取图片宽高
         int[] wh = FileUtil.getImageAr(picture);
         String ar;
-        if(wh==null){
+        if(BaseUtil.isEmpty(wh)){
             ar="0x0";
         }else {
             String w = String.valueOf(wh[0]);
@@ -44,7 +43,7 @@ public class OssController {
             return new Response(1001, urlHead+filePath+newName);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return new Response(1004);
+            return new Response(2006);
         }
     }
 }

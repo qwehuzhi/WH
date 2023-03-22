@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.company.mapper.CompanyMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="com.huzhi.module.module.company.entity.Company">
+        insert into company(
+        <if test="company.name != null and company.name != ''">name,</if>
+        <if test="company.legalPersonName != null and company.legalPersonName != ''">legal_person_name,</if>
+        <if test="company.phone != null and company.phone != ''">phone,</if>
+        <if test="company.creditCode != null and company.creditCode != ''">credit_code,</if>
+        <if test="company.businessLicensePic != null and company.businessLicensePic != ''">business_license_pic,</if>
+        <if test="company.legalPersonIdFrontPic != null and company.legalPersonIdFrontPic != ''">legal_person_id_front_pic,</if>
+        <if test="company.legalPersonIdReversePic != null and company.legalPersonIdReversePic != ''">legal_person_id_reverse_pic,</if>
+        <if test="company.createTime != null">create_time,</if>
+        <if test="company.updateTime != null">update_time,</if>
+        is_deleted
+        )values(
+        <if test="company.name != null and company.name != ''">#{company.name},</if>
+        <if test="company.legalPersonName != null and company.legalPersonName != ''">#{company.legalPersonName},</if>
+        <if test="company.phone != null and company.phone != ''">#{company.phone},</if>
+        <if test="company.creditCode != null and company.creditCode != ''">#{company.creditCode},</if>
+        <if test="company.businessLicensePic != null and company.businessLicensePic != ''">#{company.businessLicensePic},</if>
+        <if test="company.legalPersonIdFrontPic != null and company.legalPersonIdFrontPic != ''">#{company.legalPersonIdFrontPic},</if>
+        <if test="company.legalPersonIdReversePic != null and company.legalPersonIdReversePic != ''">#{company.legalPersonIdReversePic},</if>
+        <if test="company.createTime != null">#{company.createTime},</if>
+        <if test="company.updateTime != null">#{company.updateTime},</if>
+        #{company.isDeleted}
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="com.huzhi.module.module.company.entity.Company">
+        update company
+        set id = #{company.id}
+                <if test="company.name != null and company.name != ''"> , name = #{company.name}</if>
+                <if test="company.legalPersonName != null and company.legalPersonName != ''"> , legal_person_name = #{company.legalPersonName}</if>
+                <if test="company.phone != null and company.phone != ''"> , phone = #{company.phone}</if>
+                <if test="company.creditCode != null and company.creditCode != ''"> , credit_code = #{company.creditCode}</if>
+                <if test="company.businessLicensePic != null and company.businessLicensePic != ''"> , business_license_pic = #{company.businessLicensePic}</if>
+                <if test="company.legalPersonIdFrontPic != null and company.legalPersonIdFrontPic != ''"> , legal_person_id_front_pic = #{company.legalPersonIdFrontPic}</if>
+                <if test="company.legalPersonIdReversePic != null and company.legalPersonIdReversePic != ''"> , legal_person_id_reverse_pic = #{company.legalPersonIdReversePic}</if>
+                <if test="company.createTime != null"> , create_time = #{company.createTime}</if>
+                <if test="company.updateTime != null"> , update_time = #{company.updateTime}</if>
+                <if test="company.isDeleted != null"> , is_deleted = #{company.isDeleted}</if>
+        where id = #{company.id}
+    </update>
+
+    <select id="getList" resultType="com.huzhi.module.module.company.entity.Company">
+        select * from company
+        <trim prefix="where" suffixOverrides="and">
+            <if test="name != null and name != ''">name like concat('%',#{name},'%') and</if>
+            <if test="phone != null and name != ''">phone like concat('%',#{phone},'%')</if>
+        </trim>
+        order by id desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="getListTotal" resultType="Integer">
+        select count(*) from company
+        <trim prefix="where" suffixOverrides="and">
+            <if test="name != null and name != ''">name like concat('%',#{name},'%') and</if>
+            <if test="phone != null and phone != ''">phone like concat('%',#{phone},'%')</if>
+        </trim>
+    </select>
+
+
+</mapper>
+

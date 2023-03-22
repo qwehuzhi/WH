@@ -23,7 +23,7 @@ public class ImageController {
     @RequestMapping("/image")
     public Response image(@RequestParam(value = "picture") MultipartFile picture) {
         if (picture.isEmpty()) {
-            return new Response(1004);
+            return new Response(2006);
         }
         //本地上传
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM/dd/");
@@ -41,7 +41,7 @@ public class ImageController {
             picOutPut.write(picture.getBytes());
             picOutPut.close();
         } catch (Exception e) {
-            return new Response(1004);
+            return new Response(2006);
         }
         return new Response(1001, newFile.toString());
     }

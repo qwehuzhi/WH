@@ -1,8 +1,10 @@
 package com.huzhi.console.controller.car;
 
 import com.huzhi.console.annotations.VerifiedUser;
+import com.huzhi.console.domain.utils.ImageVO;
 import com.huzhi.console.domain.car.*;
 import com.huzhi.module.module.car.entity.Car;
+import com.huzhi.module.module.car.service.BaseExamineService;
 import com.huzhi.module.module.car.service.CarService;
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import com.huzhi.module.module.enterprise.service.EnterpriseService;
@@ -10,7 +12,6 @@ import com.huzhi.module.module.user.entity.User;
 import com.huzhi.module.response.Response;
 import com.huzhi.module.utils.BaseUtil;
 import com.huzhi.module.utils.ImageUtil;
-import com.huzhi.module.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,15 @@ import java.util.stream.Collectors;
 public class CarController {
     private final CarService carService;
     private final EnterpriseService enterpriseService;
+    private final BaseExamineService examineService;
+    private final Integer pageSize=5;
     @Autowired
     public CarController(CarService carService,
-                         EnterpriseService enterpriseService){
+                         EnterpriseService enterpriseService,
+                         BaseExamineService examineService){
         this.carService=carService;
         this.enterpriseService=enterpriseService;
+        this.examineService=examineService;
     }
 
     /**
@@ -45,27 +50,25 @@ public class CarController {
                            @RequestParam(value = "licenseBackPic") String licenseBackPic,         //行驶证反面
                            @RequestParam(value = "transportPic") String transportPic,             //运输证照片
                            @RequestParam(value = "trailerPic",required = false) String trailerPic,//挂车行驶证照片（可以不传）
-                           @RequestParam(value = "businessStatus") Integer businessStatus,        //业务状态
-                           @RequestParam(value = "enterpriseId") BigInteger enterpriseId         //公司id
+                           @RequestParam(value = "enterpriseId") BigInteger enterpriseId,         //公司id
+                           @RequestParam(value = "licenseFrontExpired") Integer licenseFrontExpired //行驶证过期时间
     ){
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        String message;
         numberPlate=numberPlate.trim();
         model=model.trim();
         transport=transport.trim();
-        trailer=trailer==null ?null:trailer.trim();
+        trailer=BaseUtil.isEmpty(trailer)?null:trailer.trim();
         try{
-            BigInteger add=carService.editCar(null,numberPlate,model,businessStatus,null,licenseFrontPic,
-                    licenseBackPic,transportPic,trailerPic,transport,trailer,0,enterpriseId);
-
-            message="insert success id:"+add.toString();
-            return new Response(1001,message);
+            carService.editCar(null,numberPlate,model,null,licenseFrontPic,
+                    licenseBackPic,transportPic,trailerPic,transport,trailer,0,enterpriseId,
+                    null,licenseFrontExpired);
+            return new Response(1001);
         }catch (RuntimeException e){
-            message=e.getMessage();
             e.printStackTrace();
-            return new Response(1003);
+            log.info("Error carAdd:"+e.getMessage());
+            return new Response(2002);
         }
 
     }
@@ -86,27 +89,28 @@ public class CarController {
                               @RequestParam(value = "licenseBackPic") String licenseBackPic,
                               @RequestParam(value = "transportPic") String transportPic,
                               @RequestParam(value = "trailerPic",required = false) String trailerPic,
-                              @RequestParam(value = "businessStatus") Integer businessStatus,
                               @RequestParam(value = "enterpriseId") BigInteger enterpriseId,
-                              @RequestParam(value = "isDeleted" )Integer isDeleted
+                              @RequestParam(value = "isDeleted" )Integer isDeleted,
+                              @RequestParam(value = "examineRemarks",required = false) String examineRemarks,         //审核备注
+                              @RequestParam(value = "licenseFrontExpired") Integer licenseFrontExpired //行驶证过期时间
     ){
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        String message;
         numberPlate=numberPlate.trim();
         model=model.trim();
         transport=transport.trim();
-        trailer=trailer==null ?null:trailer.trim();
+        trailer=BaseUtil.isEmpty(trailer)?null:trailer.trim();
+        examineRemarks=BaseUtil.isEmpty(examineRemarks)?null:examineRemarks.trim();
         try{
-            BigInteger update= carService.editCar(id,numberPlate,model,businessStatus,examineStatus,licenseFrontPic,
-                    licenseBackPic,transportPic,trailerPic,transport,trailer,isDeleted,enterpriseId);
-            message="update success id:"+update.toString();
+            carService.editCar(id,numberPlate,model,examineStatus,licenseFrontPic,
+                    licenseBackPic,transportPic,trailerPic,transport,trailer,isDeleted,enterpriseId,
+                    examineRemarks,licenseFrontExpired);
             return new Response(1001);
         }catch (RuntimeException e){
-            message=e.getMessage();
             e.printStackTrace();
-            return new Response(1003);
+            log.info("Error carUpdate:"+e.getMessage());
+            return new Response(2003);
         }
     }
     /**
@@ -119,8 +123,13 @@ public class CarController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        int rem=carService.delete(id);
-        return rem==1? new Response(1001): new Response(1003);
+        try{
+            carService.delete(id);
+            return new Response(1001);
+        }catch (RuntimeException e){
+            log.info("Error carDelete:"+e.getMessage());
+            return new Response(2004);
+        }
     }
     /**
      * 后台车辆列表
@@ -128,31 +137,29 @@ public class CarController {
      */
     @RequestMapping("/car/list")
     public Response carList(@VerifiedUser User loginUser,
-                            @RequestParam(value = "page")int page,
+                            @RequestParam(value = "page")Integer page,
                             @RequestParam(value = "numberPlate",required = false)String numberPlate,
                             @RequestParam(value = "enterpriseName",required = false) String enterpriseName
     ){
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        int pageSize=5;
-        numberPlate=numberPlate==null?null:numberPlate.trim();
-        enterpriseName=enterpriseName==null?null:enterpriseName.trim();
+        numberPlate=BaseUtil.isEmpty(numberPlate)?null:numberPlate.trim();
+        enterpriseName=BaseUtil.isEmpty(enterpriseName)?null:enterpriseName.trim();
         List<Car> cars=carService.getCarList(numberPlate,enterpriseName,page,pageSize);
         //将carList的id重组成新的list
-        List<BigInteger> idList=cars.stream().map(Car::getCarEnterpriseId).collect(Collectors.toList());
+        List<BigInteger> idList=cars.stream().map(Car::getEnterpriseId).collect(Collectors.toList());
         List<Enterprise> enterpriseList=enterpriseService.getByIdList(idList);
         //获取id和名称的键值对，方便返回名称
         Map<BigInteger,String> enterpriseMap=enterpriseList.stream().collect(Collectors.toMap(Enterprise::getId,Enterprise::getName));
         List<BigInteger> matchedId=enterpriseList.stream().map(Enterprise::getId).collect(Collectors.toList());
         List<CarListBaseVO> list=new ArrayList<>();
         for (Car e: cars) {
-            if(matchedId.contains(e.getCarEnterpriseId())){
+            if(matchedId.contains(e.getEnterpriseId())){
                 CarListBaseVO entity=new CarListBaseVO();
                 entity.setId(e.getId());
                 entity.setExamineStatus(e.getExamineStatus());
-                entity.setEnterpriseName(enterpriseMap.get(e.getCarEnterpriseId()));
-                entity.setBusinessStatus(e.getBusinessStatus());
+                entity.setEnterpriseName(enterpriseMap.get(e.getEnterpriseId()));
                 entity.setNumberPlate(e.getNumberPlate());
                 entity.setIsDeleted(e.getIsDeleted()==1?"已删除":"未删除");
                 list.add(entity);
@@ -186,15 +193,37 @@ public class CarController {
         infoVO.setModel(car.getModel());
         infoVO.setTransport(car.getTransport());
         infoVO.setTrailer(car.getTrailer());
-        infoVO.setBusinessStatus(car.getBusinessStatus());
+        infoVO.setExamineRemarks(car.getExamineRemarks());
+        infoVO.setLicenseFrontExpired(BaseUtil.timeStamp2Date(car.getLicenseFrontExpired()));
         infoVO.setExamineStatus(car.getExamineStatus());
-        infoVO.setLicenseFrontPic(new imageVO().setScr(car.getLicenseFrontPic()).setAr(licenseFrontWh[0].doubleValue()/licenseFrontWh[1].doubleValue()));
-        infoVO.setLicenseBackPic(new imageVO().setScr(car.getLicenseBackPic()).setAr(licenseBackWh[0].doubleValue()/licenseBackWh[1].doubleValue()));
-        infoVO.setTransportPic(new imageVO().setScr(car.getTransportPic()).setAr(transportWh[0].doubleValue()/transportWh[1].doubleValue()));
-        infoVO.setTrailerPic(new imageVO().setScr(car.getTrailerPic()).setAr(trailerWh[0].doubleValue()/trailerWh[1].doubleValue()));
-        infoVO.setEnterpriseName(enterpriseService.getById(car.getCarEnterpriseId()).getName());
-        infoVO.setCreateTime(TimeUtil.timeConvert(car.getCreateTime()));
+        infoVO.setLicenseFrontPic(new ImageVO().setScr(car.getLicenseFrontPic()).setAr(licenseFrontWh[0].doubleValue()/licenseFrontWh[1].doubleValue()));
+        infoVO.setLicenseBackPic(new ImageVO().setScr(car.getLicenseBackPic()).setAr(licenseBackWh[0].doubleValue()/licenseBackWh[1].doubleValue()));
+        infoVO.setTransportPic(new ImageVO().setScr(car.getTransportPic()).setAr(transportWh[0].doubleValue()/transportWh[1].doubleValue()));
+        infoVO.setTrailerPic(new ImageVO().setScr(car.getTrailerPic()).setAr(trailerWh[0].doubleValue()/trailerWh[1].doubleValue()));
+        infoVO.setEnterpriseName(enterpriseService.getById(car.getEnterpriseId()).getName());
+        infoVO.setCreateTime(BaseUtil.timeStamp2Date(car.getCreateTime()));
+        infoVO.setUpdateTime(BaseUtil.timeStamp2Date(car.getUpdateTime()));
         infoVO.setIsDeleted(car.getIsDeleted()==1?"已删除":"未删除");
         return new Response(1001,infoVO);
+    }
+    /**
+     * 车辆审核
+     */
+    @RequestMapping("/car/examine")
+    public Response carExamine(@VerifiedUser User loginUser,
+                               @RequestParam(value = "id") BigInteger id,
+                               @RequestParam(value = "examineStatus") Integer examineStatus,
+                               @RequestParam(value = "examineRemarks",required = false) String examineRemarks){
+        if (BaseUtil.isEmpty(loginUser)) {
+            return new Response(1002);
+        }
+        examineRemarks=BaseUtil.isEmpty(examineRemarks)?null:examineRemarks.trim();
+        try {
+            examineService.CarExamine(examineStatus,id,examineRemarks,loginUser.getId(),BaseUtil.currentSeconds());
+            return new Response(1001);
+        }catch (RuntimeException e){
+            log.info("Error carExamine:"+e.getMessage());
+            return new Response(2011);
+        }
     }
 }

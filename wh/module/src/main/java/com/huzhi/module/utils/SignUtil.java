@@ -15,7 +15,7 @@ public final class SignUtil {
     }
     public static String makeSign(BigInteger userId) {
         UserSign sign = new UserSign();
-        sign.setExpiration(TimeUtil.getNowTime() + EXPIRATION_TIME);
+        sign.setExpiration(BaseUtil.currentSeconds() + EXPIRATION_TIME);
         sign.setSalt(SIGN_SALT);
         sign.setUserId(userId);
         byte[] rawSign = Base64.getEncoder().encode(JSON.toJSONString(sign).getBytes(StandardCharsets.UTF_8));
@@ -48,7 +48,7 @@ public final class SignUtil {
         }
 
         int time = userSign.getExpiration();
-        int current = TimeUtil.getNowTime();
+        int current = BaseUtil.currentSeconds();
         if (current > time) {
             // a expired sign
             return null;

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.cronStaticTask.mapper.CronStaticTaskMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="com.huzhi.module.module.cronStaticTask.entity.CronStaticTask">
+        insert into cron_static_task(
+        <if test="cronStaticTask.ip != null and cronStaticTask.ip != ''">ip,</if>
+        <if test="cronStaticTask.task != null">task,</if>
+        <if test="cronStaticTask.timeYear != null and cronStaticTask.timeYear != ''">time_year,</if>
+        <if test="cronStaticTask.timeMonth != null and cronStaticTask.timeMonth != ''">time_month,</if>
+        <if test="cronStaticTask.timeDay != null and cronStaticTask.timeDay != ''">time_day,</if>
+        <if test="cronStaticTask.remarks != null and cronStaticTask.remarks != ''">remarks,</if>
+        <if test="cronStaticTask.moveStatus != null">move_status,</if>
+        <if test="cronStaticTask.startTime != null">start_time,</if>
+        <if test="cronStaticTask.endTime != null">end_time,</if>
+        <if test="cronStaticTask.createTime != null">create_time,</if>
+        <if test="cronStaticTask.updateTime != null">update_time</if>
+        )values(
+        <if test="cronStaticTask.ip != null and cronStaticTask.ip != ''">#{cronStaticTask.ip},</if>
+        <if test="cronStaticTask.task != null">#{cronStaticTask.task},</if>
+        <if test="cronStaticTask.timeYear != null and cronStaticTask.timeYear != ''">#{cronStaticTask.timeYear},</if>
+        <if test="cronStaticTask.timeMonth != null and cronStaticTask.timeMonth != ''">#{cronStaticTask.timeMonth},</if>
+        <if test="cronStaticTask.timeDay != null and cronStaticTask.timeDay != ''">#{cronStaticTask.timeDay},</if>
+        <if test="cronStaticTask.remarks != null and cronStaticTask.remarks != ''">#{cronStaticTask.remarks},</if>
+        <if test="cronStaticTask.moveStatus != null">#{cronStaticTask.moveStatus},</if>
+        <if test="cronStaticTask.startTime != null">#{cronStaticTask.startTime},</if>
+        <if test="cronStaticTask.endTime != null">#{cronStaticTask.endTime},</if>
+        <if test="cronStaticTask.createTime != null">#{cronStaticTask.createTime},</if>
+        <if test="cronStaticTask.updateTime != null">#{cronStaticTask.updateTime}</if>
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="com.huzhi.module.module.cronStaticTask.entity.CronStaticTask">
+        update cron_static_task
+        set id = #{cronStaticTask.id}
+                <if test="cronStaticTask.ip != null and cronStaticTask.ip != ''"> , ip = #{cronStaticTask.ip}</if>
+                <if test="cronStaticTask.task != null"> , task = #{cronStaticTask.task}</if>
+                <if test="cronStaticTask.timeYear != null and cronStaticTask.timeYear != ''"> , time_year = #{cronStaticTask.timeYear}</if>
+                <if test="cronStaticTask.timeMonth != null and cronStaticTask.timeMonth != ''"> , time_month = #{cronStaticTask.timeMonth}</if>
+                <if test="cronStaticTask.timeDay != null and cronStaticTask.timeDay != ''"> , time_day = #{cronStaticTask.timeDay}</if>
+                <if test="cronStaticTask.remarks != null and cronStaticTask.remarks != ''"> , remarks = #{cronStaticTask.remarks}</if>
+                <if test="cronStaticTask.moveStatus != null"> , move_status = #{cronStaticTask.moveStatus}</if>
+                <if test="cronStaticTask.startTime != null"> , start_time = #{cronStaticTask.startTime}</if>
+                <if test="cronStaticTask.endTime != null"> , end_time = #{cronStaticTask.endTime}</if>
+                <if test="cronStaticTask.createTime != null"> , create_time = #{cronStaticTask.createTime}</if>
+                <if test="cronStaticTask.updateTime != null"> , update_time = #{cronStaticTask.updateTime}</if>
+        where id = #{cronStaticTask.id}
+    </update>
+    <select id="taskList" resultType="com.huzhi.module.module.cronStaticTask.entity.CronStaticTask">
+        select * from cron_static_task
+        <trim prefix="where" suffixOverrides="and">
+            <if test="task != null and task != ''">task like concat('%',#{task},'%') and</if>
+            <if test="year != null and year != ''">time_year = #{year} and</if>
+            <if test="month != null and month != ''">time_month = #{month} and</if>
+            <if test="day != null and day != ''">time_day = #{day}</if>
+        </trim>
+        order by id desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="taskListTotal" resultType="Integer">
+        select count(*) from cron_static_task
+        <trim prefix="where" suffixOverrides="and">
+            <if test="task != null and task != ''">task like concat('%',#{task},'%') and</if>
+            <if test="year != null and year != ''">time_year = #{year} and</if>
+            <if test="month != null and month != ''">time_month = #{month} and</if>
+            <if test="day != null and day != ''">time_day = #{day}</if>
+        </trim>
+    </select>
+
+</mapper>
+

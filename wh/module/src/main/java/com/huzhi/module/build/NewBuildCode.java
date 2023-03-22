@@ -26,7 +26,7 @@ public class NewBuildCode {
         String outputDir = System.getProperty("user.dir") + "/module/src/main/java";
 //		String outputDir = "C://Users/VULCAN/Desktop/new";
         // 表名, 注意大小写
-        String[] tableNames = new String[]{"car_tag_relation"};
+        String tableNames = "time_task";//只需要改这里
         // 数据库地址
         String url = "jdbc:mysql://localhost:3306/project?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
         // 用户名
@@ -49,15 +49,15 @@ public class NewBuildCode {
      * @param parentPackage  父包路径
      * @param prefixTable  需要去掉的表名前缀
      */
-    public static void generate(String outputDir, String[] tableNames, String url, String userName,
+    public static void generate(String outputDir, String tableNames, String url, String userName,
                                 String password, String parentPackage, String prefixTable) {
         // ===============  全局配置  ==================
         GlobalConfig gc = new GlobalConfig();
         gc.setOutputDir(outputDir)
-                .setActiveRecord(true)								// 是否支持 AR, 实体类只需继承 Model 类即可进行强大的 CRUD 操作
+                //.setActiveRecord(true)								// 是否支持 AR, 实体类只需继承 Model 类即可进行强大的 CRUD 操作
                 .setAuthor("huzhi") 							// 设置作者名字
                 .setFileOverride(false) 								// 文件覆盖(全新文件)
-                .setIdType(IdType.AUTO)								// 主键策略
+                //.setIdType(IdType.AUTO)								// 主键策略
                 .setBaseResultMap(true) 							// SQL 映射文件
                 .setBaseColumnList(true)							// SQL 片段
                 .setServiceName("%sService")						// service的名字
@@ -74,12 +74,12 @@ public class NewBuildCode {
         // =================  包配置  ===================
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.huzhi.module")							// 配置父包路径
-           .setModuleName("module.carTagRelation")								// 配置业务包路径
-                .setMapper("mybatis.mapper")
-                .setEntity("entity")
-                .setService("service")
+           .setModuleName("module."+tableNames);							// 配置业务包路径
+                //.setMapper("mybatis.mapper")
+                //.setEntity("entity")
+                //.setService("service")
                 //.setServiceImpl("service.impl"); 					// 会自动生成 impl，可以不设定
-                .setController("controller");
+                //.setController("controller");
 
         // ==================  自定义配置  =================
         InjectionConfig cfg = new InjectionConfig() {
@@ -104,7 +104,7 @@ public class NewBuildCode {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel)					// 表名命名：  underline_to_camel 底线变驼峰
                 .setColumnNaming(NamingStrategy.underline_to_camel)			// 字段命名： underline_to_camel 底线变驼峰
-                .setInclude("car_tag_relation")										// 需要生成的 表名
+                .setInclude(tableNames)										// 需要生成的 表名
                 .setCapitalMode(true)											// 全局大写命名 ORACLE 注意
                 .setTablePrefix(prefixTable)									// 去掉 表的前缀
 //                 .setFieldPrefix(pc.getModuleName() + "_")					// 去掉字段前缀
@@ -114,15 +114,13 @@ public class NewBuildCode {
                 .setEntityLombokModel(true)									// 是否加入lombok
                 .setControllerMappingHyphenStyle(true)						// 设置controller映射联字符
                 .setLogicDeleteFieldName("is_deleted");
-        TableFill createTime=new TableFill("create_time", FieldFill.INSERT);
-        TableFill updateTime=new TableFill("update_time", FieldFill.INSERT_UPDATE);
         ArrayList<TableFill> tableFills=new ArrayList<>();
-        tableFills.add(createTime);
-        tableFills.add(updateTime);
         strategy.setTableFillList(tableFills);
         // ==================  自定义模板配置： 默认配置位置 mybatis-plus/src/main/resources/templates  ======================
         // 放置自己项目的 src/main/resources/templates 目录下, 默认名称一下可以不配置，也可以自定义模板名称
         TemplateConfig tc = new TemplateConfig();
+        tc.setController("");
+        tc.setServiceImpl("");
         tc.setXml("templates/mapper.xml");	        									// 设置生成xml的模板
 //                .setEntity("/templates/entity.java")		        				// 设置生成entity的模板
 //                .setMapper("/templates/mapper.java")		        				// 设置生成mapper的模板

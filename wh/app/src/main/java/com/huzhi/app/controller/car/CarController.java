@@ -7,6 +7,7 @@ import com.huzhi.module.module.car.service.CarService;
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import com.huzhi.module.module.enterprise.service.EnterpriseService;
 import com.huzhi.module.response.Response;
+import com.huzhi.module.utils.BaseUtil;
 import com.huzhi.module.utils.ImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,9 @@ public class CarController {
                             @RequestParam(value = "enterpriseName",required = false) String enterpriseName
     ) {
         WrapperPageVO wpMassage=new WrapperPageVO();
-        if (wp == null || wp.equals("")){
-            numberPlate=numberPlate==null?null:numberPlate.trim();
-            enterpriseName=enterpriseName==null?null:enterpriseName.trim();
+        if (BaseUtil.isEmpty(wp)){
+            numberPlate=BaseUtil.isEmpty(numberPlate)?null:numberPlate.trim();
+            enterpriseName=BaseUtil.isEmpty(enterpriseName)?null:enterpriseName.trim();
             wpMassage.setPage(1);
             wpMassage.setNumberPlate(numberPlate);
             wpMassage.setEnterpriseName(enterpriseName);
@@ -61,21 +62,20 @@ public class CarController {
         String wpBase= Base64.getUrlEncoder().encodeToString(JSONObject.toJSONString(wpMassage).getBytes(StandardCharsets.UTF_8));
         List<Car> cars=carService.getCarList(wpMassage.getNumberPlate(),wpMassage.getEnterpriseName(),wpMassage.getPage(), pageSize);
         //将carList的id重组成新的list
-        List<BigInteger> idList=cars.stream().map(Car::getCarEnterpriseId).collect(Collectors.toList());
+        List<BigInteger> idList=cars.stream().map(Car::getEnterpriseId).collect(Collectors.toList());
         List<Enterprise> enterpriseList=enterpriseService.getByIdList(idList);
         //获取id和名称的键值对，方便返回名称
         Map<BigInteger,String> enterpriseMap=enterpriseList.stream().collect(Collectors.toMap(Enterprise::getId,Enterprise::getName));
         List<BigInteger> matchedId=enterpriseList.stream().map(Enterprise::getId).collect(Collectors.toList());
         List<CarListBaseVO> list=new ArrayList<>();
         for (Car e : cars) {
-            if (matchedId.contains(e.getCarEnterpriseId())) {
+            if (matchedId.contains(e.getEnterpriseId())) {
                 CarListBaseVO entity = new CarListBaseVO();
                 entity.setId(e.getId());
                 entity.setModel(e.getModel());
                 entity.setNumberPlate(e.getNumberPlate());
-                entity.setEnterpriseName(enterpriseMap.get(e.getCarEnterpriseId()));
+                entity.setEnterpriseName(enterpriseMap.get(e.getEnterpriseId()));
                 entity.setExamineStatus(e.getExamineStatus());
-                entity.setBusinessStatus(e.getBusinessStatus());
                 list.add(entity);
             }
         }
@@ -100,15 +100,16 @@ public class CarController {
         CarInfoVO infoVO=new CarInfoVO();
         infoVO.setNumberPlate(car.getNumberPlate());
         infoVO.setModel(car.getModel());
-        infoVO.setBusinessStatus(car.getBusinessStatus());
         infoVO.setExamineStatus(car.getExamineStatus());
+        infoVO.setExamineRemarks(car.getExamineRemarks());
         infoVO.setLicenseFrontPic(new imageVO().setScr(car.getLicenseFrontPic()).setAr(licenseFrontWh[0].doubleValue()/licenseFrontWh[1].doubleValue()));
         infoVO.setLicenseBackPic(new imageVO().setScr(car.getLicenseBackPic()).setAr(licenseBackWh[0].doubleValue()/licenseBackWh[1].doubleValue()));
         infoVO.setTransportPic(new imageVO().setScr(car.getTransportPic()).setAr(transportWh[0].doubleValue()/transportWh[1].doubleValue()));
         infoVO.setTrailerPic(new imageVO().setScr(car.getTrailerPic()).setAr(trailerWh[0].doubleValue()/trailerWh[1].doubleValue()));
+        infoVO.setLicenseFrontExpired(BaseUtil.timeStamp2Date(car.getLicenseFrontExpired()));
         infoVO.setTransport(car.getTransport());
         infoVO.setTrailer(car.getTrailer());
-        infoVO.setEnterpriseName(enterpriseService.getById(car.getCarEnterpriseId()).getName());
+        infoVO.setEnterpriseName(enterpriseService.getById(car.getEnterpriseId()).getName());
     return new Response(1001,infoVO);
     }
 }

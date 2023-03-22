@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 公司信息表
+ * 车辆挂靠公司表
  * </p>
  *@EqualsAndHashCode(callSuper = true) 注解的作用就是将其父类属性也进行比较
  * extends Model<Enterprise>
@@ -36,6 +36,10 @@ public class Enterprise  {
      * 法人名称
      */
     private String legalPersonName;
+    /**
+     * 联系号码
+     */
+    private String phone;
     /**
      * 统一社会信用代码
      */

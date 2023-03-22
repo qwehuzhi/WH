@@ -76,7 +76,7 @@ public class BaseUserService {
     }
 
     public int delete(BigInteger userId) {
-        return mapper.delete(userId, TimeUtil.getNowTime());
+        return mapper.delete(userId, BaseUtil.currentSeconds());
     }
 
     /**
@@ -110,7 +110,7 @@ public class BaseUserService {
             avatar = gender.equals(GENDER_MALE.getCode()) ? ImageUtil.getDefaultMaleAvatar() : ImageUtil.getDefaultFeMaleAvatar();
         }
         User newUser = new User();
-        int now = TimeUtil.getNowTime();
+        int now = BaseUtil.currentSeconds();
         newUser.setUsername(name);
         newUser.setPhone(phone);
         newUser.setCountryCode("86");

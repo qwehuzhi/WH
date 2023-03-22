@@ -10,14 +10,14 @@
         <#list table.fields as field>
             <#if field.propertyName == "id">
             <#else>
-        <if test="${entity}.${field.propertyName} != null and ${entity}.${field.propertyName} != ''">${field.propertyName}<#if field_has_next>,</#if></if>
+        <if test="${table.name}.${field.propertyName} != null and ${table.name}.${field.propertyName} != ''">${field.name}<#if field_has_next>,</#if></if>
             </#if>
         </#list>
         )values(
         <#list table.fields as field>
             <#if field.propertyName == "id">
             <#else>
-        <if test="${entity}.${field.propertyName} != null and ${entity}.${field.propertyName} != ''"><#noparse>#{</#noparse>${entity}.${field.propertyName}<#noparse>}</#noparse><#if field_has_next>,</#if></if>
+        <if test="${table.name}.${field.propertyName} != null and ${table.name}.${field.propertyName} != ''"><#noparse>#{</#noparse>${entity}.${field.propertyName}<#noparse>}</#noparse><#if field_has_next>,</#if></if>
             </#if>
         </#list>
         )
@@ -30,7 +30,7 @@
         <#list table.fields as field>
             <#if field.propertyName == "id">
             <#else>
-                <if test="${entity}.${field.propertyName} != null and ${entity}.${field.propertyName} != ''"> , ${field.propertyName} = <#noparse>#{</#noparse>${entity}.${field.propertyName}<#noparse>}</#noparse></if>
+                <if test="${table.name}.${field.propertyName} != null and ${table.name}.${field.propertyName} != ''"> , ${field.name} = <#noparse>#{</#noparse>${table.name}.${field.propertyName}<#noparse>}</#noparse></if>
             </#if>
         </#list>
         where id = <#noparse>#{</#noparse>${entity}.id<#noparse>}</#noparse>

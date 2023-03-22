@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.statistics.mapper.StatisticsMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="com.huzhi.module.module.statistics.entity.Statistics">
+        insert into statistics(
+        <if test="statistics.waybillIncrement != null">waybill_increment,</if>
+        <if test="statistics.waybillTotal != null">waybill_total,</if>
+        <if test="statistics.clientIncrement != null">client_increment,</if>
+        <if test="statistics.clientTotal != null">client_total,</if>
+        <if test="statistics.carIncrement != null">car_increment,</if>
+        <if test="statistics.carTotal != null">car_total,</if>
+        <if test="statistics.driverIncrement != null">driver_increment,</if>
+        <if test="statistics.driverTotal != null">driver_total,</if>
+        <if test="statistics.timeYear != null and statistics.timeYear != ''">time_year,</if>
+        <if test="statistics.timeMonth != null and statistics.timeMonth != ''">time_month,</if>
+        <if test="statistics.timeDay != null and statistics.timeDay != ''">time_day,</if>
+        <if test="statistics.createTime != null">create_time,</if>
+        <if test="statistics.updateTime != null">update_time,</if>
+        is_deleted
+        )values(
+        <if test="statistics.waybillIncrement != null">#{statistics.waybillIncrement},</if>
+        <if test="statistics.waybillTotal != null">#{statistics.waybillTotal},</if>
+        <if test="statistics.clientIncrement != null">#{statistics.clientIncrement},</if>
+        <if test="statistics.clientTotal != null">#{statistics.clientTotal},</if>
+        <if test="statistics.carIncrement != null">#{statistics.carIncrement},</if>
+        <if test="statistics.carTotal != null">#{statistics.carTotal},</if>
+        <if test="statistics.driverIncrement != null">#{statistics.driverIncrement},</if>
+        <if test="statistics.driverTotal != null">#{statistics.driverTotal},</if>
+        <if test="statistics.timeYear != null and statistics.timeYear != ''">#{statistics.timeYear},</if>
+        <if test="statistics.timeMonth != null and statistics.timeMonth != ''">#{statistics.timeMonth},</if>
+        <if test="statistics.timeDay != null and statistics.timeDay != ''">#{statistics.timeDay},</if>
+        <if test="statistics.createTime != null">#{statistics.createTime},</if>
+        <if test="statistics.updateTime != null">#{statistics.updateTime},</if>
+        #{statistics.isDeleted}
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="com.huzhi.module.module.statistics.entity.Statistics">
+        update statistics
+        set id = #{statistics.id}
+                <if test="statistics.waybillIncrement != null"> , waybill_increment = #{statistics.waybillIncrement}</if>
+                <if test="statistics.waybillTotal != null"> , waybill_total = #{statistics.waybillTotal}</if>
+                <if test="statistics.clientIncrement != null"> , client_increment = #{statistics.clientIncrement}</if>
+                <if test="statistics.clientTotal != null"> , client_total = #{statistics.clientTotal}</if>
+                <if test="statistics.carIncrement != null"> , car_increment = #{statistics.carIncrement}</if>
+                <if test="statistics.carTotal != null"> , car_total = #{statistics.carTotal}</if>
+                <if test="statistics.driverIncrement != null"> , driver_increment = #{statistics.driverIncrement}</if>
+                <if test="statistics.driverTotal != null"> , driver_total = #{statistics.driverTotal}</if>
+                <if test="statistics.timeYear != null and statistics.timeYear != ''"> , time_year = #{statistics.timeYear}</if>
+                <if test="statistics.timeMonth != null and statistics.timeMonth != ''"> , time_month = #{statistics.timeMonth}</if>
+                <if test="statistics.timeDay != null and statistics.timeDay != ''"> , time_day = #{statistics.timeDay}</if>
+                <if test="statistics.createTime != null"> , create_time = #{statistics.createTime}</if>
+                <if test="statistics.updateTime != null"> , update_time = #{statistics.updateTime}</if>
+                <if test="statistics.isDeleted != null"> , is_deleted = #{statistics.isDeleted}</if>
+        where id = #{statistics.id}
+    </update>
+    <select id="getByTime" resultType="com.huzhi.module.module.statistics.entity.Statistics">
+        select * from statistics
+        <trim prefix="where" suffixOverrides="and">
+            <if test="timeYear != null and timeYear != ''">time_year = #{timeYear} and</if>
+            <if test="timeMonth != null and timeMonth != ''">time_month = #{timeMonth} and</if>
+            <if test="timeDay != null and timeDay != ''">time_day = #{timeDay}</if>
+        </trim>
+        limit 1
+    </select>
+    <select id="getTotalByTime" resultType="com.huzhi.module.module.statistics.entity.Statistics">
+        select * from statistics
+        <trim prefix="where" suffixOverrides="and">
+            <if test="timeYear != null and timeYear != ''">time_year = #{timeYear} and</if>
+            <if test="timeMonth != null and timeMonth != ''">time_month = #{timeMonth} and</if>
+            <if test="timeDay != null and timeDay != ''">time_day = #{timeDay}</if>
+        </trim>
+    </select>
+
+
+</mapper>
+

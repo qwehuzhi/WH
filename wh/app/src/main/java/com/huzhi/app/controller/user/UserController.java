@@ -10,7 +10,6 @@ import com.huzhi.module.response.Response;
 import com.huzhi.module.utils.BaseUtil;
 import com.huzhi.module.utils.IpUtil;
 import com.huzhi.module.utils.SignUtil;
-import com.huzhi.module.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +48,7 @@ public class UserController {
         User user = baseUserService.getByPhone(phone);
 
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
-        baseUserService.refreshUserLoginContext(user.getId(), IpUtil.getIpAddress(request), TimeUtil.getNowTime());
+        baseUserService.refreshUserLoginContext(user.getId(), IpUtil.getIpAddress(request), BaseUtil.currentSeconds());
         UserInfoVo userInfo = new UserInfoVo();
         userInfo.setGender(user.getGender());
         userInfo.setName(user.getUsername());
@@ -95,7 +94,7 @@ public class UserController {
                 return new Response(1010);
             }
             newUserId = user.getId();
-            baseUserService.refreshUserLoginContext(user.getId(), IpUtil.getIpAddress(request), TimeUtil.getNowTime());
+            baseUserService.refreshUserLoginContext(user.getId(), IpUtil.getIpAddress(request), BaseUtil.currentSeconds());
         }else {
             //注册新用户
             if (!UserDefine.isGender(gender)) {

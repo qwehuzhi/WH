@@ -1,5 +1,6 @@
 package com.huzhi.module.module.enterprise.mapper;
 
+import com.huzhi.module.module.client.entity.Client;
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -47,7 +48,7 @@ public interface EnterpriseMapper {
      * @return
      */
     @Update("UPDATE enterprise SET is_deleted = 1,update_time = #{updateTime} WHERE Id=#{Id}")
-    int delete(@Param(value = "id") BigInteger id,@Param(value = "updateTime") Integer updateTime);
+    Integer delete(@Param(value = "id") BigInteger id,@Param(value = "updateTime") Integer updateTime);
     /**
      * 通过公司名称获取对应的id列表
      * 用于模糊查询
@@ -61,4 +62,17 @@ public interface EnterpriseMapper {
      */
     @Select("SELECT * FROM enterprise WHERE is_deleted = 0 and id in (${enterpriseId})")
     List<Enterprise> getByIdList(@Param(value = "enterpriseId") String enterpriseId);
+
+    /**
+     * 查询：列表显示所有信息并分页
+     */
+    List<Enterprise> getList(@Param(value = "name")String name,
+                         @Param(value = "phone") String phone,
+                         @Param(value = "offset")int offset,
+                         @Param(value = "pageSize") int pageSize);
+    /**
+     * 查询：信息总数附带模糊查询
+     */
+    Integer getListTotal(@Param(value = "name") String name,
+                         @Param(value = "phone") String phone);
 }

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.waybillSnapshot.mapper.WaybillSnapshotMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="com.huzhi.module.module.waybillSnapshot.entity.WaybillSnapshot">
+        insert into waybill_snapshot(
+        <if test="waybillSnapshot.waybillNumber != null and waybillSnapshot.waybillNumber != ''">waybill_number,</if>
+        <if test="waybillSnapshot.typeOfGoods != null and waybillSnapshot.typeOfGoods != ''">type_of_goods,</if>
+        <if test="waybillSnapshot.weightOfGoods != null and waybillSnapshot.weightOfGoods != ''">weight_of_goods,</if>
+        <if test="waybillSnapshot.volumeOfGoods != null and waybillSnapshot.volumeOfGoods != ''">volume_of_goods,</if>
+        <if test="waybillSnapshot.deliveryTime != null">delivery_time,</if>
+        <if test="waybillSnapshot.deliveryProvince != null and waybillSnapshot.deliveryProvince != ''">delivery_province,</if>
+        <if test="waybillSnapshot.deliveryCity != null and waybillSnapshot.deliveryCity != ''">delivery_city,</if>
+        <if test="waybillSnapshot.deliveryRegion != null and waybillSnapshot.deliveryRegion != ''">delivery_region,</if>
+        <if test="waybillSnapshot.deliveryAddress != null and waybillSnapshot.deliveryAddress != ''">delivery_address,</if>
+        <if test="waybillSnapshot.arrivalTime != null">arrival_time,</if>
+        <if test="waybillSnapshot.arrivalProvince != null and waybillSnapshot.arrivalProvince != ''">arrival_province,</if>
+        <if test="waybillSnapshot.arrivalCity != null and waybillSnapshot.arrivalCity != ''">arrival_city,</if>
+        <if test="waybillSnapshot.arrivalRegion != null and waybillSnapshot.arrivalRegion != ''">arrival_region,</if>
+        <if test="waybillSnapshot.arrivalAddress != null and waybillSnapshot.arrivalAddress != ''">arrival_address,</if>
+        <if test="waybillSnapshot.remarks != null and waybillSnapshot.remarks != ''">remarks,</if>
+        <if test="waybillSnapshot.carNumberPlate != null and waybillSnapshot.carNumberPlate != ''">car_number_plate,</if>
+        <if test="waybillSnapshot.carModel != null and waybillSnapshot.carModel != ''">car_model,</if>
+        <if test="waybillSnapshot.driverName != null and waybillSnapshot.driverName != ''">driver_name,</if>
+        <if test="waybillSnapshot.driverPhone != null and waybillSnapshot.driverPhone != ''">driver_phone,</if>
+        <if test="waybillSnapshot.driverIdNumber != null and waybillSnapshot.driverIdNumber != ''">driver_id_number,</if>
+        <if test="waybillSnapshot.clientName != null and waybillSnapshot.clientName != ''">client_name,</if>
+        <if test="waybillSnapshot.clientPhone != null and waybillSnapshot.clientPhone != ''">client_phone,</if>
+        <if test="waybillSnapshot.clientCreditCode != null and waybillSnapshot.clientCreditCode != ''">client_credit_code,</if>
+        <if test="waybillSnapshot.companyName != null and waybillSnapshot.companyName != ''">company_name,</if>
+        <if test="waybillSnapshot.companyPhone != null and waybillSnapshot.companyPhone != ''">company_phone,</if>
+        <if test="waybillSnapshot.companyCreditCode != null and waybillSnapshot.companyCreditCode != ''">company_credit_code,</if>
+        <if test="waybillSnapshot.createTime != null">create_time,</if>
+        <if test="waybillSnapshot.updateTime != null">update_time,</if>
+        is_deleted
+        )values(
+        <if test="waybillSnapshot.waybillNumber != null and waybillSnapshot.waybillNumber != ''">#{waybillSnapshot.waybillNumber},</if>
+        <if test="waybillSnapshot.typeOfGoods != null and waybillSnapshot.typeOfGoods != ''">#{waybillSnapshot.typeOfGoods},</if>
+        <if test="waybillSnapshot.weightOfGoods != null and waybillSnapshot.weightOfGoods != ''">#{waybillSnapshot.weightOfGoods},</if>
+        <if test="waybillSnapshot.volumeOfGoods != null and waybillSnapshot.volumeOfGoods != ''">#{waybillSnapshot.volumeOfGoods},</if>
+        <if test="waybillSnapshot.deliveryTime != null">#{waybillSnapshot.deliveryTime},</if>
+        <if test="waybillSnapshot.deliveryProvince != null and waybillSnapshot.deliveryProvince != ''">#{waybillSnapshot.deliveryProvince},</if>
+        <if test="waybillSnapshot.deliveryCity != null and waybillSnapshot.deliveryCity != ''">#{waybillSnapshot.deliveryCity},</if>
+        <if test="waybillSnapshot.deliveryRegion != null and waybillSnapshot.deliveryRegion != ''">#{waybillSnapshot.deliveryRegion},</if>
+        <if test="waybillSnapshot.deliveryAddress != null and waybillSnapshot.deliveryAddress != ''">#{waybillSnapshot.deliveryAddress},</if>
+        <if test="waybillSnapshot.arrivalTime != null">#{waybillSnapshot.arrivalTime},</if>
+        <if test="waybillSnapshot.arrivalProvince != null and waybillSnapshot.arrivalProvince != ''">#{waybillSnapshot.arrivalProvince},</if>
+        <if test="waybillSnapshot.arrivalCity != null and waybillSnapshot.arrivalCity != ''">#{waybillSnapshot.arrivalCity},</if>
+        <if test="waybillSnapshot.arrivalRegion != null and waybillSnapshot.arrivalRegion != ''">#{waybillSnapshot.arrivalRegion},</if>
+        <if test="waybillSnapshot.arrivalAddress != null and waybillSnapshot.arrivalAddress != ''">#{waybillSnapshot.arrivalAddress},</if>
+        <if test="waybillSnapshot.remarks != null and waybillSnapshot.remarks != ''">#{waybillSnapshot.remarks},</if>
+        <if test="waybillSnapshot.carNumberPlate != null and waybillSnapshot.carNumberPlate != ''">#{waybillSnapshot.carNumberPlate},</if>
+        <if test="waybillSnapshot.carModel != null and waybillSnapshot.carModel != ''">#{waybillSnapshot.carModel},</if>
+        <if test="waybillSnapshot.driverName != null and waybillSnapshot.driverName != ''">#{waybillSnapshot.driverName},</if>
+        <if test="waybillSnapshot.driverPhone != null and waybillSnapshot.driverPhone != ''">#{waybillSnapshot.driverPhone},</if>
+        <if test="waybillSnapshot.driverIdNumber != null and waybillSnapshot.driverIdNumber != ''">#{waybillSnapshot.driverIdNumber},</if>
+        <if test="waybillSnapshot.clientName != null and waybillSnapshot.clientName != ''">#{waybillSnapshot.clientName},</if>
+        <if test="waybillSnapshot.clientPhone != null and waybillSnapshot.clientPhone != ''">#{waybillSnapshot.clientPhone},</if>
+        <if test="waybillSnapshot.clientCreditCode != null and waybillSnapshot.clientCreditCode != ''">#{waybillSnapshot.clientCreditCode},</if>
+        <if test="waybillSnapshot.companyName != null and waybillSnapshot.companyName != ''">#{waybillSnapshot.companyName},</if>
+        <if test="waybillSnapshot.companyPhone != null and waybillSnapshot.companyPhone != ''">#{waybillSnapshot.companyPhone},</if>
+        <if test="waybillSnapshot.companyCreditCode != null and waybillSnapshot.companyCreditCode != ''">#{waybillSnapshot.companyCreditCode},</if>
+        <if test="waybillSnapshot.createTime != null">#{waybillSnapshot.createTime},</if>
+        <if test="waybillSnapshot.updateTime != null">#{waybillSnapshot.updateTime},</if>
+        #{waybillSnapshot.isDeleted}
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="com.huzhi.module.module.waybillSnapshot.entity.WaybillSnapshot">
+        update waybill_snapshot
+        set id = #{waybillSnapshot.id}
+                <if test="waybillSnapshot.waybillNumber != null and waybillSnapshot.waybillNumber != ''"> , waybill_number = #{waybillSnapshot.waybillNumber}</if>
+                <if test="waybillSnapshot.typeOfGoods != null and waybillSnapshot.typeOfGoods != ''"> , type_of_goods = #{waybillSnapshot.typeOfGoods}</if>
+                <if test="waybillSnapshot.weightOfGoods != null and waybillSnapshot.weightOfGoods != ''"> , weight_of_goods = #{waybillSnapshot.weightOfGoods}</if>
+                <if test="waybillSnapshot.volumeOfGoods != null and waybillSnapshot.volumeOfGoods != ''"> , volume_of_goods = #{waybillSnapshot.volumeOfGoods}</if>
+                <if test="waybillSnapshot.deliveryTime != null"> , delivery_time = #{waybillSnapshot.deliveryTime}</if>
+                <if test="waybillSnapshot.deliveryProvince != null and waybillSnapshot.deliveryProvince != ''"> , delivery_province = #{waybillSnapshot.deliveryProvince}</if>
+                <if test="waybillSnapshot.deliveryCity != null and waybillSnapshot.deliveryCity != ''"> , delivery_city = #{waybillSnapshot.deliveryCity}</if>
+                <if test="waybillSnapshot.deliveryRegion != null and waybillSnapshot.deliveryRegion != ''"> , delivery_region = #{waybillSnapshot.deliveryRegion}</if>
+                <if test="waybillSnapshot.deliveryAddress != null and waybillSnapshot.deliveryAddress != ''"> , delivery_address = #{waybillSnapshot.deliveryAddress}</if>
+                <if test="waybillSnapshot.arrivalTime != null"> , arrival_time = #{waybillSnapshot.arrivalTime}</if>
+                <if test="waybillSnapshot.arrivalProvince != null and waybillSnapshot.arrivalProvince != ''"> , arrival_province = #{waybillSnapshot.arrivalProvince}</if>
+                <if test="waybillSnapshot.arrivalCity != null and waybillSnapshot.arrivalCity != ''"> , arrival_city = #{waybillSnapshot.arrivalCity}</if>
+                <if test="waybillSnapshot.arrivalRegion != null and waybillSnapshot.arrivalRegion != ''"> , arrival_region = #{waybillSnapshot.arrivalRegion}</if>
+                <if test="waybillSnapshot.arrivalAddress != null and waybillSnapshot.arrivalAddress != ''"> , arrival_address = #{waybillSnapshot.arrivalAddress}</if>
+                <if test="waybillSnapshot.remarks != null and waybillSnapshot.remarks != ''"> , remarks = #{waybillSnapshot.remarks}</if>
+                <if test="waybillSnapshot.carNumberPlate != null and waybillSnapshot.carNumberPlate != ''"> , car_number_plate = #{waybillSnapshot.carNumberPlate}</if>
+                <if test="waybillSnapshot.carModel != null and waybillSnapshot.carModel != ''"> , car_model = #{waybillSnapshot.carModel}</if>
+                <if test="waybillSnapshot.driverName != null and waybillSnapshot.driverName != ''"> , driver_name = #{waybillSnapshot.driverName}</if>
+                <if test="waybillSnapshot.driverPhone != null and waybillSnapshot.driverPhone != ''"> , driver_phone = #{waybillSnapshot.driverPhone}</if>
+                <if test="waybillSnapshot.driverIdNumber != null and waybillSnapshot.driverIdNumber != ''"> , driver_id_number = #{waybillSnapshot.driverIdNumber}</if>
+                <if test="waybillSnapshot.clientName != null and waybillSnapshot.clientName != ''"> , client_name = #{waybillSnapshot.clientName}</if>
+                <if test="waybillSnapshot.clientPhone != null and waybillSnapshot.clientPhone != ''"> , client_phone = #{waybillSnapshot.clientPhone}</if>
+                <if test="waybillSnapshot.clientCreditCode != null and waybillSnapshot.clientCreditCode != ''"> , client_credit_code = #{waybillSnapshot.clientCreditCode}</if>
+                <if test="waybillSnapshot.companyName != null and waybillSnapshot.companyName != ''"> , company_name = #{waybillSnapshot.companyName}</if>
+                <if test="waybillSnapshot.companyPhone != null and waybillSnapshot.companyPhone != ''"> , company_phone = #{waybillSnapshot.companyPhone}</if>
+                <if test="waybillSnapshot.companyCreditCode != null and waybillSnapshot.companyCreditCode != ''"> , company_credit_code = #{waybillSnapshot.companyCreditCode}</if>
+                <if test="waybillSnapshot.createTime != null"> , create_time = #{waybillSnapshot.createTime}</if>
+                <if test="waybillSnapshot.updateTime != null"> , update_time = #{waybillSnapshot.updateTime}</if>
+                <if test="waybillSnapshot.isDeleted != null"> , is_deleted = #{waybillSnapshot.isDeleted}</if>
+        where id = #{waybillSnapshot.id}
+    </update>
+    <select id="getList" resultType="com.huzhi.module.module.waybillSnapshot.entity.WaybillSnapshot">
+        select * from waybill_snapshot
+        <trim prefix="where" suffixOverrides="and">
+            <if test="clientName != null and clientName != ''">client_name like concat('%',#{clientName},'%') and</if>
+            <if test="clientPhone != null and clientPhone != ''">client_phone like concat('%',#{clientPhone},'%') and</if>
+            <if test="driverName != null and driverName != ''">driver_name like concat('%',#{driverName},'%') and</if>
+            <if test="carNumberPlate != null and carNumberPlate != ''">car_number_plate like concat('%',#{carNumberPlate},'%')</if>
+        </trim>
+        order by id desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="getTotal" resultType="Integer">
+        select count(*) from waybill_snapshot
+        <trim prefix="where" suffixOverrides="and">
+            <if test="clientName != null and clientName != ''">client_name like concat('%',#{clientName},'%') and</if>
+            <if test="clientPhone != null and clientPhone != ''">client_phone like concat('%',#{clientPhone},'%') and</if>
+            <if test="driverName != null and driverName != ''">driver_name like concat('%',#{driverName},'%') and</if>
+            <if test="carNumberPlate != null and carNumberPlate != ''">car_number_plate like concat('%',#{carNumberPlate},'%')</if>
+        </trim>
+    </select>
+
+</mapper>
+

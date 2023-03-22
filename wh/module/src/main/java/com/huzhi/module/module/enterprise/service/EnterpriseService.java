@@ -2,11 +2,10 @@ package com.huzhi.module.module.enterprise.service;
 
 import com.huzhi.module.module.enterprise.entity.Enterprise;
 import com.huzhi.module.module.enterprise.mapper.EnterpriseMapper;
-import com.huzhi.module.utils.TimeUtil;
+import com.huzhi.module.utils.BaseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,47 +41,64 @@ public class EnterpriseService  {
         return mapper.extractById(id);
     }
     /**
-     * 插入信息
-     * @return
+     * 插入
      */
-    public BigInteger insert(String name,String legalPersonName,String creditCode,String businessLicensePic,
-                          String legalPersonIdFrontPic,String legalPersonIdReversePic){
-        Enterprise insertEnterprise=new Enterprise();
-        insertEnterprise.setName(name);
-        insertEnterprise.setLegalPersonName(legalPersonName);
-        insertEnterprise.setCreditCode(creditCode);
-        insertEnterprise.setBusinessLicensePic(businessLicensePic);
-        insertEnterprise.setLegalPersonIdFrontPic(legalPersonIdFrontPic);
-        insertEnterprise.setLegalPersonIdReversePic(legalPersonIdReversePic);
-        insertEnterprise.setCreateTime(TimeUtil.getNowTime());
-        mapper.insert(insertEnterprise);
-        return insertEnterprise.getId();
+    public Integer editEnterprise(Enterprise enterprise){
+        return mapper.insert(enterprise);
     }
     /**
-     * 修改信息
+     * 修改
+     */
+    public Integer update(Enterprise enterprise){
+        return mapper.update(enterprise);
+    }
+    /**
+     * 校验
+     */
+    private boolean unsafeCheckForEnterprise(String name, String legalPersonName, String phone, String creditCode, String businessLicensePic,
+                                          String legalPersonIdFrontPic, String legalPersonIdReversePic){
+        if(BaseUtil.isEmpty(name)||BaseUtil.isEmpty(legalPersonName)||BaseUtil.isEmpty(phone)||
+                BaseUtil.isEmpty(legalPersonIdFrontPic)||BaseUtil.isEmpty(creditCode)||
+                BaseUtil.isEmpty(businessLicensePic)||BaseUtil.isEmpty(legalPersonIdReversePic)){
+            throw new RuntimeException("parameter have null");
+        }
+        return true;
+    }
+    /**
+     * 插入,修改信息
      * @return
      */
-    public BigInteger update(BigInteger id,String name,String legalPersonName,String creditCode,String businessLicensePic,
-                          String legalPersonIdFrontPic,String legalPersonIdReversePic,Integer isDeleted){
-        Enterprise updateEnterprise=new Enterprise();
-        updateEnterprise.setName(name);
-        updateEnterprise.setLegalPersonName(legalPersonName);
-        updateEnterprise.setCreditCode(creditCode);
-        updateEnterprise.setBusinessLicensePic(businessLicensePic);
-        updateEnterprise.setLegalPersonIdFrontPic(legalPersonIdFrontPic);
-        updateEnterprise.setLegalPersonIdReversePic(legalPersonIdReversePic);
-        updateEnterprise.setIsDeleted(isDeleted);
-        updateEnterprise.setId(id);
-        mapper.update(updateEnterprise);
-        return updateEnterprise.getId();
+    public BigInteger editEnterprise(BigInteger id, String name, String legalPersonName, String phone, String creditCode, String businessLicensePic,
+                                     String legalPersonIdFrontPic, String legalPersonIdReversePic, Integer isDeleted){
+        if(unsafeCheckForEnterprise(name,legalPersonName,phone,creditCode,businessLicensePic,legalPersonIdFrontPic,legalPersonIdReversePic)){
+            Enterprise entity=new Enterprise();
+            entity.setName(name);
+            entity.setLegalPersonName(legalPersonName);
+            entity.setPhone(phone);
+            entity.setCreditCode(creditCode);
+            entity.setBusinessLicensePic(businessLicensePic);
+            entity.setLegalPersonIdFrontPic(legalPersonIdFrontPic);
+            entity.setLegalPersonIdReversePic(legalPersonIdReversePic);
+            entity.setIsDeleted(isDeleted);
+            if(BaseUtil.isEmpty(id)){
+                Integer back= editEnterprise(entity);
+                entity.setId(BigInteger.valueOf(back));
+                return entity.getId();
+            }else {
+                entity.setId(id);
+                update(entity);
+                return id;
+            }
+        }
+        return null;
     }
     /**
      *
      * 删除信息（逻辑删除）
      * @return
      */
-    public int delete(BigInteger id){
-        return mapper.delete(id,TimeUtil.getNowTime());
+    public Integer delete(BigInteger id){
+        return mapper.delete(id, BaseUtil.currentSeconds());
     }
     /**
      * 通过公司名称获取对应的id列表
@@ -90,7 +106,7 @@ public class EnterpriseService  {
      * @return              id
      */
     public String getIdByOption(String enterpriseName){
-        if (enterpriseName == null || enterpriseName.equals("")){
+        if (BaseUtil.isEmpty(enterpriseName)){
            return null;
         }else {
             List<String> enterpriseIdList=mapper.getIdByOption(enterpriseName);
@@ -117,5 +133,17 @@ public class EnterpriseService  {
         enterpriseId.deleteCharAt(enterpriseId.length()-1);
         ids=enterpriseId.toString();
         return mapper.getByIdList(ids);
+    }
+    /**
+     * 查询：列表显示所有信息并分页
+     */
+    public List<Enterprise> getList(String name, String phone, Integer page, Integer pageSize){
+        return mapper.getList(name,phone,(page-1)*pageSize,pageSize);
+    }
+    /**
+     * 查询：信息总数附带模糊查询
+     */
+    public Integer getListTotal(String name, String phone){
+        return mapper.getListTotal(name,phone);
     }
 }

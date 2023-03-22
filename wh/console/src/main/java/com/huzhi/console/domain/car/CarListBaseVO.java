@@ -12,7 +12,6 @@ public class CarListBaseVO {
         private BigInteger id;
         private String numberPlate;//车牌
         private String enterpriseName;//公司名称
-        private Integer businessStatus;//业务状态
         private Integer examineStatus;//审核状态
         private String isDeleted;//逻辑删除
 

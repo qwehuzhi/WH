@@ -9,7 +9,6 @@ import com.huzhi.module.module.user.service.BaseUserService;
 import com.huzhi.module.utils.BaseUtil;
 import com.huzhi.module.utils.IpUtil;
 import com.huzhi.module.utils.SpringUtil;
-import com.huzhi.module.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +48,7 @@ public Response loginWeb(@VerifiedUser User loginUser,
 
     User user = baseUserService.getByPhone(phone);
     HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
-    baseUserService.refreshUserLoginContext(user.getId(), IpUtil.getIpAddress(request), TimeUtil.getNowTime());
+    baseUserService.refreshUserLoginContext(user.getId(), IpUtil.getIpAddress(request), BaseUtil.currentSeconds());
 
     UserInfoVo userInfo = new UserInfoVo();
     userInfo.setUserGender(user.getGender());

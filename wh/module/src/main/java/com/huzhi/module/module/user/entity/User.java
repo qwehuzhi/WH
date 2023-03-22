@@ -1,13 +1,9 @@
 package com.huzhi.module.module.user.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import java.math.BigInteger;
 
-import com.huzhi.module.utils.TimeUtil;
+import com.huzhi.module.utils.BaseUtil;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -131,7 +127,7 @@ public class User {
     /**
      * 修改时间
      */
-    private Integer updateTime= TimeUtil.getNowTime();
+    private Integer updateTime= BaseUtil.currentSeconds();
 
     /**
      * 是否删除 1-是 0-否

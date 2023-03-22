@@ -1,5 +1,6 @@
 package com.huzhi.module.response;
 
+import com.huzhi.module.code.ResponseCode;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

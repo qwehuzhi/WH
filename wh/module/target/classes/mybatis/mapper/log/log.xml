@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huzhi.module.module.log.mapper.LogMapper">
+
+    <insert id="insert"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="com.huzhi.module.module.log.entity.Log">
+        insert into log(
+        <if test="log.userId != null">user_id</if>
+        <if test="log.type != null">,type</if>
+        <if test="log.operateTime != null">,operate_time</if>
+        <if test="log.operate != null and log.operate != ''">,operate</if>
+        <if test="log.extra != null and log.extra != ''">,extra</if>
+        <if test="log.createTime != null">,create_time</if>
+        <if test="log.updateTime != null">,update_time</if>
+        )values(
+        <if test="log.userId != null">#{log.userId}</if>
+        <if test="log.type != null">,#{log.type}</if>
+        <if test="log.operateTime != null">,#{log.operateTime}</if>
+        <if test="log.operate != null and log.operate != ''">,#{log.operate}</if>
+        <if test="log.extra != null and log.extra != ''">,#{log.extra}</if>
+        <if test="log.createTime != null">,#{log.createTime}</if>
+        <if test="log.updateTime != null">,#{log.updateTime}</if>
+        )
+    </insert>
+
+    <update id="update"
+            parameterType="com.huzhi.module.module.log.entity.Log">
+        update log
+        set id = #{log.id}
+                <if test="log.userId != null"> , user_id = #{log.userId}</if>
+                <if test="log.type != null"> , type = #{log.type}</if>
+                <if test="log.operateTime != null"> , operate_time = #{log.operateTime}</if>
+                <if test="log.operate != null and log.operate != ''"> , operate = #{log.operate}</if>
+                <if test="log.extra != null and log.extra != ''"> , extra = #{log.extra}</if>
+                <if test="log.createTime != null"> , create_time = #{log.createTime}</if>
+                <if test="log.updateTime != null"> , update_time = #{log.updateTime}</if>
+                <if test="log.isDeleted != null"> , is_deleted = #{log.isDeleted}</if>
+        where id = #{log.id}
+    </update>
+    <select id="getList" resultType="com.huzhi.module.module.log.entity.Log">
+        select * from log
+        <trim prefix="where" suffixOverrides="and">
+            <if test="userId != null">user_id like concat('%',#{userId},'%') and</if>
+            <if test="type != null">type = #{type} and</if>
+            <if test="operate != null and operate != ''">operate = #{operate}</if>
+        </trim>
+        order by id desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="getListTotal" resultType="Integer">
+        select count(*) from log
+        <trim prefix="where" suffixOverrides="and">
+            <if test="userName != null">user_id like concat('%',#{userName},'%') and</if>
+            <if test="type != null">type = #{type} and</if>
+            <if test="operate != null and operate != ''">operate = #{operate}</if>
+        </trim>
+    </select>
+
+
+</mapper>
+

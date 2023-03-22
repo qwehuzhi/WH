@@ -3,12 +3,8 @@ package com.huzhi.module.utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 public class FileUtil {
     public static int[] getImageAr(MultipartFile picture){

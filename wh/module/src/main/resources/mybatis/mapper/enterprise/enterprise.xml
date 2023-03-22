@@ -8,25 +8,25 @@
         INSERT INTO enterprise (
         <if test="enterprise.name!=null and enterprise.name!=''">name,</if>
         <if test="enterprise.legalPersonName!=null and enterprise.legalPersonName!=''">legal_person_name,</if>
+        <if test="enterprise.phone!=null and enterprise.phone!=''">phone,</if>
         <if test="enterprise.creditCode!=null and enterprise.creditCode!=''">credit_code,</if>
         <if test="enterprise.businessLicensePic!=null and enterprise.businessLicensePic!=''">business_license_pic,</if>
         <if test="enterprise.legalPersonIdFrontPic!=null and enterprise.legalPersonIdFrontPic!=''">legal_person_id_front_pic,</if>
         <if test="enterprise.legalPersonIdReversePic!=null and enterprise.legalPersonIdReversePic!=''">legal_person_id_reverse_pic,</if>
-        <if test="enterprise.balance!=null and enterprise.balance!=''">balance,</if>
         <if test="enterprise.createTime!=null ">create_time,</if>
         <if test="enterprise.updateTime!=null ">update_time,</if>
-        <if test="enterprise.isDeleted!=null ">is_deleted,</if>
+        is_deleted
         ) VALUES (
         <if test="enterprise.name!=null and enterprise.name!=''">#{enterprise.name},</if>
         <if test="enterprise.legalPersonName!=null and enterprise.legalPersonName!=''">#{enterprise.legalPersonName},</if>
+        <if test="enterprise.phone!=null and enterprise.phone!=''">#{enterprise.phone},</if>
         <if test="enterprise.creditCode!=null and enterprise.creditCode!=''">#{enterprise.creditCode},</if>
         <if test="enterprise.businessLicensePic!=null and enterprise.businessLicensePic!=''">#{enterprise.businessLicensePic},</if>
         <if test="enterprise.legalPersonIdFrontPic!=null and enterprise.legalPersonIdFrontPic!=''">#{enterprise.legalPersonIdFrontPic},</if>
         <if test="enterprise.legalPersonIdReversePic!=null and enterprise.legalPersonIdReversePic!=''">#{enterprise.legalPersonIdReversePic},</if>
-        <if test="enterprise.balance!=null and enterprise.balance!=''">#{enterprise.balance},</if>
         <if test="enterprise.createTime!=null ">#{enterprise.createTime},</if>
         <if test="enterprise.updateTime!=null ">#{enterprise.updateTime},</if>
-        <if test="enterprise.isDeleted!=null ">#{enterprise.isDeleted},</if>
+        #{enterprise.isDeleted}
         )
     </insert>
     <!--update修改数据-->
@@ -36,6 +36,7 @@
          set id=#{enterprise.id}
          <if test="enterprise.name!=null and enterprise.name!=''">,name = #{enterprise.name}</if>
          <if test="enterprise.legalPersonName!=null and enterprise.legalPersonName!=''">,legal_person_name = #{enterprise.legalPersonName}</if>
+         <if test="enterprise.phone!=null and enterprise.phone!=''">,phone = #{enterprise.phone}</if>
          <if test="enterprise.creditCode!=null and enterprise.creditCode!=''">,credit_code = #{enterprise.creditCode}</if>
          <if test="enterprise.businessLicensePic!=null and enterprise.businessLicensePic!=''">,business_license_pic = #{enterprise.businessLicensePic}</if>
          <if test="enterprise.legalPersonIdFrontPic!=null and enterprise.legalPersonIdFrontPic!=''">,legal_person_id_front_pic = #{enterprise.legalPersonIdFrontPic}</if>
@@ -45,5 +46,21 @@
          <if test="enterprise.isDeleted!=null">,is_deleted = #{enterprise.isDeleted}</if>
          WHERE id=#{enterprise.id}
     </update>
+    <select id="getList" resultType="com.huzhi.module.module.enterprise.entity.Enterprise">
+        select * from enterprise
+        <trim prefix="where" suffixOverrides="and">
+            <if test="name != null and name != ''">name like concat('%',#{name},'%') and</if>
+            <if test="phone != null and name != ''">phone like concat('%',#{phone},'%')</if>
+        </trim>
+        order by id desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="getListTotal" resultType="Integer">
+        select count(*) from enterprise
+        <trim prefix="where" suffixOverrides="and">
+            <if test="name != null and name != ''">name like concat('%',#{name},'%') and</if>
+            <if test="phone != null and phone != ''">phone like concat('%',#{phone},'%')</if>
+        </trim>
+    </select>
 
 </mapper>
