@@ -29,14 +29,10 @@ import java.util.Map;
 public class CronStaticTaskController {
     private final int pageSize=5;
     private final int utmost=50;//最多尝试执行插入次数
-    private final BaseStatisticsService baseStatisticsService;
-    private final CronStaticTaskService cronStaticTaskService;
     @Autowired
-    public CronStaticTaskController(BaseStatisticsService baseStatisticsService,
-                                    CronStaticTaskService cronStaticTaskService){
-        this.baseStatisticsService=baseStatisticsService;
-        this.cronStaticTaskService =cronStaticTaskService;
-    }
+    private BaseStatisticsService baseStatisticsService;
+    @Autowired
+    private CronStaticTaskService cronStaticTaskService;
     @Scheduled(cron = "0 10 0 * * ?")
     public void scheduledTasks(){
         Map<Integer,String> time = BaseUtil.getCalendar();
@@ -64,10 +60,6 @@ public class CronStaticTaskController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        task=BaseUtil.isEmpty(task)?null:task;
-        year=BaseUtil.isEmpty(year)?null:year;
-        month=BaseUtil.isEmpty(month)?null:month;
-        day=BaseUtil.isEmpty(day)?null:day;
         List<CronStaticTask> cronStaticTasks = cronStaticTaskService.taskList(page, pageSize, task, year, month, day);
         List<TaskListBaseVO> list=new ArrayList<>();
         for (CronStaticTask c :

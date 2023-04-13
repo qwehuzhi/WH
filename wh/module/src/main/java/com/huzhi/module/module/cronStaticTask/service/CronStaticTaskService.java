@@ -5,6 +5,7 @@ import com.huzhi.module.module.cronStaticTask.entity.CronStaticTask;
 import com.huzhi.module.module.cronStaticTask.mapper.CronStaticTaskMapper;
 import com.huzhi.module.utils.BaseUtil;
 import com.huzhi.module.utils.IpUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.Map;
  * @author huzhi
  * @since 2023-03-09
  */
+@Slf4j
 @Service
 public class CronStaticTaskService {
     private CronStaticTaskMapper mapper;
@@ -124,19 +126,17 @@ public class CronStaticTaskService {
         }else {
             changeState(TaskMoveCode.Fail.getCode(), BaseUtil.currentSeconds(),
                     time.get(0),time.get(1),time.get(2),task);
+            log.info("主机ip:"+IpUtil.getLocalIpAddress()+",statistics表定时任务执行失败:"+BaseUtil.timeStamp2Date(BaseUtil.currentSeconds()));
         }
     }
     /**
      * 定时任务列表
      */
     public List<CronStaticTask> taskList(Integer page, Integer pageSize,String task,String year,String month,String day){
-        return mapper.taskList((page-1)*pageSize,pageSize,task,year,month,day);
+        return mapper.taskList((page - 1) * pageSize, pageSize, task, year, month, day);
+
     }
     public Integer taskListTotal(String task,String year,String month,String day){
-        Integer back = mapper.taskListTotal(task, year, month, day);
-        if(BaseUtil.isEmpty(back)){
-            back=0;
-        }
-        return back;
+        return mapper.taskListTotal(task, year, month, day);
     }
 }

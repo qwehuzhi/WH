@@ -22,12 +22,9 @@ import java.util.List;
 @Slf4j
 @RestController
 public class CompanyController {
-    private final CompanyService companyService;
-    private final Integer pageSize=5;
     @Autowired
-    public CompanyController(CompanyService companyService){
-        this.companyService=companyService;
-    }
+    private CompanyService companyService;
+    private final Integer pageSize=5;
     /**
      * 新增承运公司
      * @return

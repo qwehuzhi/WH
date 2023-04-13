@@ -25,15 +25,11 @@ import java.util.List;
 @Slf4j
 @RestController
 public class DriverController {
-    private final DriverService driverService;
-    private final BaseExamineService examineService;
-    private final int pageSize=5;
     @Autowired
-    public DriverController(DriverService driverService,
-                            BaseExamineService examineService){
-        this.driverService=driverService;
-        this.examineService=examineService;
-    }
+    private DriverService driverService;
+    @Autowired
+    private BaseExamineService examineService;
+    private final int pageSize=5;
 
     /**
      *  新增司机信息

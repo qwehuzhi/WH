@@ -173,4 +173,5 @@ public class CarService {
         Integer begin=BaseUtil.getCalendar0Time();
         return mapper.getYesterdayIncrementForCar(begin,begin+86400);
     }
+
 }

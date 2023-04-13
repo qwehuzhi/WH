@@ -22,12 +22,9 @@ import java.util.List;
 @Slf4j
 @RestController
 public class EnterpriseController {
-    private final EnterpriseService enterpriseService;
-    private final Integer pageSize=5;
     @Autowired
-    public EnterpriseController(EnterpriseService enterpriseService){
-        this.enterpriseService=enterpriseService;
-    }
+    private EnterpriseService enterpriseService;
+    private final Integer pageSize=5;
     /**
      * 新增合作公司（车辆所属公司）
      * @return

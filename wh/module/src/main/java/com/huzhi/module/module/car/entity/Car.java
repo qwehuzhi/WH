@@ -3,12 +3,13 @@ package com.huzhi.module.module.car.entity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
 @Data
 @Accessors(chain =true)
-public class Car {
+public class Car implements Serializable {
     private BigInteger id;//唯一id
     private String numberPlate;//车牌
     private String model;//车型

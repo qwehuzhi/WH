@@ -21,11 +21,8 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 public class UserController {
-    private final BaseUserService baseUserService;
     @Autowired
-    public UserController(BaseUserService baseUserService){
-        this.baseUserService=baseUserService;
-    }
+    private BaseUserService baseUserService;
 @RequestMapping("/user/login/web")
 public Response loginWeb(@VerifiedUser User loginUser,
                          HttpSession httpSession,

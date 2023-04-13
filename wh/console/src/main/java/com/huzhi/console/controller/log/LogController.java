@@ -21,11 +21,8 @@ import java.util.List;
 @Slf4j
 @RestController
 public class LogController {
-    private final LogService logService;
     @Autowired
-    public LogController(LogService logService){
-        this.logService=logService;
-    }
+    private LogService logService;
     private final Integer pageSize=5;
     @RequestMapping("/log")
     public Response log(@VerifiedUser User loginUser,

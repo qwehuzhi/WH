@@ -18,6 +18,9 @@
         <module>app</module>
         <module>console</module>
         <module>module</module>
+        <module>deptmanage-eureka-7001</module>
+        <module>micro-service-cloud-provider-dept-8001</module>
+        <module>micro-service-cloud-consumer-dept-feign</module>
     </modules>
     <packaging>pom</packaging>
     <!--统一版本管理-->
@@ -26,10 +29,24 @@
         <mybatis.version>3.5.0</mybatis.version>
     </properties>
     <dependencies>
+
+
+<!--        &lt;!&ndash; 最新版的 eureka 服务端包 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; 监控管理 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>2.7.8</version>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
@@ -51,6 +68,16 @@
     <!--统一依赖管理-->
     <dependencyManagement>
         <dependencies>
+            <!--在主工程中使用 dependencyManagement 声明 Spring Cloud 的版本，
+            这样工程内的 Module 中引入 Spring Cloud 组件依赖时，就不必在声明组件的版本信息
+            保证 Spring Cloud 各个组件一致性-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2021.0.6</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>com.huzhi</groupId>
                 <artifactId>app</artifactId>
@@ -64,6 +91,21 @@
             <dependency>
                 <groupId>com.huzhi</groupId>
                 <artifactId>module</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.huzhi</groupId>
+                <artifactId>deptmanage-eureka-7001</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.huzhi</groupId>
+                <artifactId>micro-service-cloud-provider-dept-8001</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.huzhi</groupId>
+                <artifactId>micro-service-cloud-consumer-dept-feign</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 

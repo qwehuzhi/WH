@@ -23,18 +23,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 public class CarController {
-    private final CarService carService;
-    private final EnterpriseService enterpriseService;
-    private final BaseExamineService examineService;
-    private final Integer pageSize=5;
     @Autowired
-    public CarController(CarService carService,
-                         EnterpriseService enterpriseService,
-                         BaseExamineService examineService){
-        this.carService=carService;
-        this.enterpriseService=enterpriseService;
-        this.examineService=examineService;
-    }
+    private CarService carService;
+    @Autowired
+    private EnterpriseService enterpriseService;
+    @Autowired
+    private BaseExamineService examineService;
+    private final Integer pageSize=5;
 
     /**
      *后台新增车辆信息

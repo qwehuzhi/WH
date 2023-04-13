@@ -22,11 +22,8 @@ import java.math.BigInteger;
 
 @RestController
 public class UserController {
-    private final BaseUserService baseUserService;
     @Autowired
-    public UserController(BaseUserService baseUserService){
-        this.baseUserService=baseUserService;
-    }
+    private BaseUserService baseUserService;
 
     /**
      * 用户登录

@@ -8,15 +8,25 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="app" />
+        <module name="deptmanage-eureka-7001" />
         <module name="console" />
+        <module name="micro-service-cloud-consumer-dept-feign" />
+        <module name="micro-service-cloud-provider-dept-8001" />
         <module name="module" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="app" options="-parameters" />
       <module name="console" options="-parameters" />
+      <module name="demo" options="-parameters" />
+      <module name="deptmanage-eureka-7001" options="-parameters" />
+      <module name="micro-service-cloud-consumer-dept-feign" options="-parameters" />
+      <module name="micro-service-cloud-provider-dept-8001" options="-parameters" />
       <module name="module" options="-parameters" />
       <module name="wh" options="" />
     </option>

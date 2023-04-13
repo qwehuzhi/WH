@@ -37,30 +37,21 @@ import java.util.stream.Collectors;
 @RestController
 public class WaybillController {
     private final  Integer pageSize = 5;
-    private final WaybillService waybillService;
-    private final BaseWaybillRelevanceService baseWaybillService;
-    private final CompanyService companyService;
-    private final ClientService clientService;
-    private final DriverService driverService;
-    private final CarService carService;
-    private final WaybillSnapshotService waybillSnapshotService;
-
     @Autowired
-    public WaybillController(WaybillService waybillService,
-                             BaseWaybillRelevanceService baseWaybillService,
-                             CompanyService companyService,
-                             ClientService clientService,
-                             DriverService driverService,
-                             CarService carService,
-                             WaybillSnapshotService waybillSnapshotService) {
-        this.waybillService = waybillService;
-        this.baseWaybillService = baseWaybillService;
-        this.companyService = companyService;
-        this.clientService = clientService;
-        this.driverService = driverService;
-        this.carService = carService;
-        this.waybillSnapshotService=waybillSnapshotService;
-    }
+    private WaybillService waybillService;
+    @Autowired
+    private BaseWaybillRelevanceService baseWaybillService;
+    @Autowired
+    private CompanyService companyService;
+    @Autowired
+    private ClientService clientService;
+    @Autowired
+    private DriverService driverService;
+    @Autowired
+    private CarService carService;
+    @Autowired
+    private WaybillSnapshotService waybillSnapshotService;
+
 
     /**
      * 新增运单

@@ -21,7 +21,7 @@ public class BaseUtil {
      *null->true
      * 数字类型的空校验是等于0，原本就等于0的不能用这个
      * @param obj 校验的对象
-     * @return
+     * @return 结果
      */
     public static boolean isEmpty(Object obj) {
         if (obj instanceof List) {

@@ -19,11 +19,8 @@ import java.util.*;
 @Slf4j
 @RestController
 public class StatisticsController {
-    private final StatisticsService statisticsService;
     @Autowired
-    public StatisticsController(StatisticsService statisticsService){
-        this.statisticsService=statisticsService;
-    }
+    private StatisticsService statisticsService;
 
     /**
      * 总量统计页
@@ -72,7 +69,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        Map<Integer, String[]> time = BaseUtil.getYearAndMouth(1, 2, 3);
         Map<Integer,String> names=new HashMap<>();
         names.put(1,"业务量(已完成运单)");
         names.put(2,"客户数量");
@@ -113,9 +109,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
-        month=month.trim();
-        day=day.trim();
         Statistics statistics = statisticsService.getByTime(year, month, day);
         TotalVO totalVO=new TotalVO();
         totalVO.setTotal(statistics.getWaybillIncrement());
@@ -132,9 +125,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
-        month=month.trim();
-        day=day.trim();
         Statistics statistics = statisticsService.getByTime(year, month, day);
         TotalVO totalVO=new TotalVO();
         totalVO.setTotal(statistics.getClientIncrement());
@@ -151,9 +141,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
-        month=month.trim();
-        day=day.trim();
         Statistics statistics = statisticsService.getByTime(year, month, day);
         TotalVO totalVO=new TotalVO();
         totalVO.setTotal(statistics.getDriverIncrement());
@@ -170,9 +157,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
-        month=month.trim();
-        day=day.trim();
         Statistics statistics = statisticsService.getByTime(year, month, day);
         TotalVO totalVO=new TotalVO();
         totalVO.setTotal(statistics.getCarIncrement());
@@ -188,8 +172,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
-        month=month.trim();
         List<Statistics> serviceTotalByTime = statisticsService.getTotalByTime(year, month, null);
         BigInteger total=new BigInteger("0");
         for (Statistics s :
@@ -210,8 +192,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
-        month=month.trim();
         List<Statistics> serviceTotalByTime = statisticsService.getTotalByTime(year, month, null);
         BigInteger total=new BigInteger("0");
         for (Statistics s :
@@ -232,8 +212,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
-        month=month.trim();
         List<Statistics> serviceTotalByTime = statisticsService.getTotalByTime(year, month, null);
         BigInteger total=new BigInteger("0");
         for (Statistics s :
@@ -254,8 +232,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
-        month=month.trim();
         List<Statistics> serviceTotalByTime = statisticsService.getTotalByTime(year, month, null);
         BigInteger total=new BigInteger("0");
         for (Statistics s :
@@ -275,7 +251,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
         List<Statistics> serviceTotalByTime = statisticsService.getTotalByTime(year, null, null);
         BigInteger total=new BigInteger("0");
         for (Statistics s : serviceTotalByTime) {
@@ -294,7 +269,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
         List<Statistics> serviceTotalByTime = statisticsService.getTotalByTime(year, null, null);
         BigInteger total=new BigInteger("0");
         for (Statistics s : serviceTotalByTime) {
@@ -314,7 +288,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
         List<Statistics> serviceTotalByTime = statisticsService.getTotalByTime(year, null, null);
         BigInteger total=new BigInteger("0");
         for (Statistics s : serviceTotalByTime) {
@@ -333,7 +306,6 @@ public class StatisticsController {
         if (BaseUtil.isEmpty(loginUser)) {
             return new Response(1002);
         }
-        year=year.trim();
         List<Statistics> serviceTotalByTime = statisticsService.getTotalByTime(year, null, null);
         BigInteger total=new BigInteger("0");
         for (Statistics s : serviceTotalByTime) {

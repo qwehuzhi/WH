@@ -22,12 +22,9 @@ import java.util.List;
 @Slf4j
 @RestController
 public class ClientController {
-    private final ClientService clientService;
-    private final int pageSize=5;
     @Autowired
-    public ClientController(ClientService clientService){
-        this.clientService=clientService;
-    }
+    private ClientService clientService;
+    private final int pageSize=5;
 
     /**
      * 新增客户

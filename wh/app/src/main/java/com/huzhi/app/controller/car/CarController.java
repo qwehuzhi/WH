@@ -11,6 +11,8 @@ import com.huzhi.module.utils.BaseUtil;
 import com.huzhi.module.utils.ImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,19 +31,14 @@ public class CarController {
      * size规定分页的大小
      */
     private static final int pageSize =5;
-    private final CarService carService;
-    private final EnterpriseService enterpriseService;
     @Autowired
-    public CarController(CarService carService,
-                         EnterpriseService enterpriseService){
-        this.carService=carService;
-        this.enterpriseService=enterpriseService;
-    }
+    private  CarService carService;
+    @Autowired
+    private  EnterpriseService enterpriseService;
+    @Autowired
+    private   RedisTemplate redisTemplate;
     /**
      * app车辆列表
-     * 思路：获取两个类对象后开始赋值，由于是list类型（二维数组），使用foreach循环把获取到的值赋值
-     * 注意：值是给对象的，二维数组内有多个对象有值，所以是先给对象值，再把对象送进数组
-     * continue是因为这里获取到的对象可能是空的，controller获取对象时要注意npe，null.getName就会npe
      */
     @RequestMapping("/car/list")
     public Response carList(@RequestParam(value = "wp",required = false) String wp,
@@ -49,6 +46,7 @@ public class CarController {
                             @RequestParam(value = "enterpriseName",required = false) String enterpriseName
     ) {
         WrapperPageVO wpMassage=new WrapperPageVO();
+        List<Car> cars=new ArrayList<>();
         if (BaseUtil.isEmpty(wp)){
             numberPlate=BaseUtil.isEmpty(numberPlate)?null:numberPlate.trim();
             enterpriseName=BaseUtil.isEmpty(enterpriseName)?null:enterpriseName.trim();
@@ -58,9 +56,17 @@ public class CarController {
         }else {
             wpMassage=JSONObject.parseObject(Base64.getDecoder().decode(wp.getBytes(StandardCharsets.UTF_8)), WrapperPageVO.class);
             wpMassage.setPage(wpMassage.getPage()+1);
+            cars = (List<Car>) redisTemplate.opsForValue().get(wp);//
         }
         String wpBase= Base64.getUrlEncoder().encodeToString(JSONObject.toJSONString(wpMassage).getBytes(StandardCharsets.UTF_8));
-        List<Car> cars=carService.getCarList(wpMassage.getNumberPlate(),wpMassage.getEnterpriseName(),wpMassage.getPage(), pageSize);
+        if(BaseUtil.isEmpty(cars)) {
+            cars = carService.getCarList(wpMassage.getNumberPlate(), wpMassage.getEnterpriseName(), wpMassage.getPage(), pageSize);
+            try {
+                redisTemplate.opsForValue().set(wpBase, cars);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         //将carList的id重组成新的list
         List<BigInteger> idList=cars.stream().map(Car::getEnterpriseId).collect(Collectors.toList());
         List<Enterprise> enterpriseList=enterpriseService.getByIdList(idList);

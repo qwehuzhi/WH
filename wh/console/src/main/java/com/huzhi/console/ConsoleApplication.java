@@ -3,7 +3,9 @@ package com.huzhi.console;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
+@EnableEurekaClient
 @SpringBootApplication(scanBasePackages={"com.huzhi.console","com.huzhi.module"})
 @MapperScan("com.huzhi.module.**.mapper")
 public class ConsoleApplication {
