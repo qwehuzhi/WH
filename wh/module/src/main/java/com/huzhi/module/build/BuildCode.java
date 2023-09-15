@@ -35,7 +35,7 @@ public class BuildCode {
         }
         throw new MybatisPlusException("请输入正确的" + tip + "！");
     }
-
+//git
     public static void main(String[] args) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
